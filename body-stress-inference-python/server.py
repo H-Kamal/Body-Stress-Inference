@@ -3,9 +3,11 @@ import random
 import json
 from time import sleep
 
-def connectSocket(ip, port):
+PORT = 1755
+
+def connectSocket(ip):
     s = socket.socket()
-    s.connect((ip, port))
+    s.connect((ip, PORT))
     return s
 
 def sendRandomColors(s):
