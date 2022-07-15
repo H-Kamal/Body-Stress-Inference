@@ -23,7 +23,8 @@ if __name__ == '__main__':
     print("Your Computer Name is:"+hostname)
     print("Your Computer IP Address is:"+IPAddr)
     
-    s = connectSocket(IPAddr, 1755)
+
     for i in range (100):
+        s = connectSocket(IPAddr, 1755)
         sendRandomColors(s)
         sleep(1)
