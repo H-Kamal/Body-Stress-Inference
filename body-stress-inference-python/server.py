@@ -2,6 +2,7 @@ import socket
 import random
 import json
 from time import sleep
+import pose
 
 PORT = 1755
 
@@ -11,11 +12,11 @@ def connectSocket(ip):
     return s
 
 def sendRandomColors(s):
-    s.send((
-        str(random.randint(0,255)) + ","+ 
-        str(random.randint(0,255)) + ","+ 
-        str(random.randint(0,255)) + ","+ 
-        str(random.randint(0,255))).encode())
+    dic = pose.determining_joints()
+    jsonResult = json.dumps(dic)
+    print(jsonResult)
+    
+    s.send(jsonResult.encode())
     s.close()
 
 # Alone will connect to a socket provided
