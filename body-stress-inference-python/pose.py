@@ -44,10 +44,10 @@ def determining_joints():
                 
                 # temporary data until we decide what body parts to actually use
                 body_parts = {
-                    "shoulder": shoulder,
-                    "elbow" : elbow,
-                    "wrist": wrist,
-                    "angle" : angle
+                    "Shoulder": shoulder,
+                    "Elbow" : elbow,
+                    "Wrist": wrist,
+                    "Angle" : angle
                 }
                 
                 if socketIsOpen == False:
