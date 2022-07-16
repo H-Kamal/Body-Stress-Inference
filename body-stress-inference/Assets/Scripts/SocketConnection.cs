@@ -14,6 +14,7 @@ public class SocketConnection : MonoBehaviour
     public ManualResetEvent allDone;
     public Renderer objectRenderer;
     private Color matColor;
+    public JointData jointData;
 
     public static readonly int PORT = 1755;
     public static readonly int WAITTIME = 1;
@@ -21,6 +22,7 @@ public class SocketConnection : MonoBehaviour
 
     SocketConnection()
     {
+        jointData = new JointData();
         source = new CancellationTokenSource();
         allDone = new ManualResetEvent(false);
     }
