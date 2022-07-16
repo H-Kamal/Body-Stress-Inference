@@ -117,7 +117,6 @@ public class SocketConnection : MonoBehaviour
                 string content = state.colorCode.ToString();
                 print($"Read {content.Length} bytes from socket.\n Data : {content}");
                 jointData = JsonConvert.DeserializeObject<JointData>(content);
-                print("I am here");
                 print(jointData.Angle);
                 //SetColors(content);
             }
