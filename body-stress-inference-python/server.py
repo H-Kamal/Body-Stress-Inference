@@ -13,8 +13,9 @@ def connectSocket(ip):
 
 def sendRandomColors(s):
     dic = pose.determining_joints()
+    print(dic)
     jsonResult = json.dumps(dic)
-    print(jsonResult)
+    # print(jsonResult)
     
     s.send(jsonResult.encode())
     s.close()
@@ -26,8 +27,6 @@ if __name__ == '__main__':
     print("Your Computer Name is:" + hostname)
     print("Your Computer IP Address is:" + IPAddr)
     
-
-    for i in range (100):
-        s = connectSocket(IPAddr)
-        sendRandomColors(s)
-        sleep(1)
+    s = connectSocket(IPAddr)
+    sendRandomColors(s)
+    sleep(1)
