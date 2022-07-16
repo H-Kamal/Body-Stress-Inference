@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class SocketConnection : MonoBehaviour
 {
@@ -115,9 +116,10 @@ public class SocketConnection : MonoBehaviour
                 //All of the data has been read
                 string content = state.colorCode.ToString();
                 print($"Read {content.Length} bytes from socket.\n Data : {content}");
-                print("data type: ");
-                print(content);
-                SetColors(content);
+                jointData = JsonConvert.DeserializeObject<JointData>(content);
+                print("I am here");
+                print(jointData.Angle);
+                //SetColors(content);
             }
             handler.Close();
         }
