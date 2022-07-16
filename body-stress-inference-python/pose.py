@@ -1,11 +1,14 @@
 import cv2
 import mediapipe as mp
 import numpy as np
+import server
 
+PORT  = 1755
 mp_drawing = mp.solutions.drawing_utils # this gives us all of our drawing utilities
 mp_pose = mp.solutions.pose # this is importing our pose estimation models
 
 cap = cv2.VideoCapture(0)
+socketIsOpen = False
 
 def determining_joints():
     # Curl counter variables
@@ -47,7 +50,17 @@ def determining_joints():
                     "Wrist": wrist,
                     "Angle" : angle
                 }
+                
                 # print(body_parts)
+                # print(socketIsOpen)
+                
+                if socketIsOpen == False:
+                    print("hello world")
+                    print(socketIsOpen)
+                    # socket = server.connectSocket(PORT)
+                    # server.sendJSONDataToUnity(socket, body_parts)
+                    socketIsOpen = True
+                
                 # Visualize angle
                 cv2.putText(image, str(angle), tuple(np.multiply(elbow, [640, 480]).astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
                 
