@@ -115,6 +115,8 @@ public class SocketConnection : MonoBehaviour
                 //All of the data has been read
                 string content = state.colorCode.ToString();
                 print($"Read {content.Length} bytes from socket.\n Data : {content}");
+                print("data type: ");
+                print(content);
                 SetColors(content);
             }
             handler.Close();
