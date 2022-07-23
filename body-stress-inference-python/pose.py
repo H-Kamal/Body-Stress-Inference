@@ -18,11 +18,8 @@ def determining_joints():
         while cap.isOpened():
             ret, frame = cap.read()
             
-            # Fliping the image as said in question
-            frame_flip = cv2.flip(frame, 1)
-            
             # Recolor image to RGB
-            image = cv2.cvtColor(frame_flip, cv2.COLOR_BGR2RGB)
+            image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             image.flags.writeable = False
             
             # Make detection
