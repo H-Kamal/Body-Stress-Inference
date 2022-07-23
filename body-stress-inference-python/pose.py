@@ -35,19 +35,27 @@ def determining_joints():
             try:
                 landmarks = results.pose_landmarks.landmark
                 # Get coordinates
-                shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-                elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-                wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x,landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
-                                
+                left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
+                left_elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
+                left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
+
+                right_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
+                right_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
+                right_hip = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y]
+
                 # Calculate angle
-                angle = calculate_angle(shoulder, elbow, wrist)
-                
-                # temporary data until we decide what body parts to actually use
+                left_body_angle = calculate_angle(left_shoulder, left_elbow, left_hip)
+                right_body_angle = calculate_angle(right_shoulder, right_elbow, right_hip)
+
                 body_parts = {
-                    "Shoulder": shoulder,
-                    "Elbow" : elbow,
-                    "Wrist": wrist,
-                    "Angle" : angle
+                    "Left Shoulder": left_shoulder,
+                    "Left Elbow" : left_elbow,
+                    "Left Hip": left_hip,
+                    "Left Body Angle" : left_body_angle,
+                    "Right Shoulder": right_shoulder,
+                    "Right Elbow" : right_elbow,
+                    "Right Hip": right_hip,
+                    "Right Body Angle" : right_body_angle
                 }
                 
                 if socketIsOpen == False:
