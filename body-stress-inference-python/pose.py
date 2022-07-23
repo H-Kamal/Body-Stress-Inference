@@ -14,8 +14,10 @@ def determining_joints():
     # Curl counter variables
     counter = 0 
     stage = None
-    
+    SAMPLE_SIZE = 10
+    angleArr = []
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+
         while cap.isOpened():
             ret, frame = cap.read()
             
@@ -57,8 +59,14 @@ def determining_joints():
                 left_body_angle = calculate_angle(left_hip, left_shoulder, left_elbow)
                 right_body_angle = calculate_angle(right_hip, right_shoulder, right_elbow)
 
-                print(rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_body_angle))
-                
+                if len(angleArr) <= SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
+                    angleArr.append(left_body_angle)
+                else:
+                    avgAngle = sum(angleArr) / len(angleArr)
+                    rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], avgAngle) # do REBA analysis taken on angle
+                    print(rebaLeftArm)
+                    angleArr = []
+
                 # Check threshold before adding body parts data to body parts dictionary and sending data.
                 body_parts = {
                     "Left Shoulder": left_shoulder,
@@ -68,7 +76,8 @@ def determining_joints():
                     "Right Shoulder": right_shoulder,
                     "Right Elbow" : right_elbow,
                     "Right Hip": right_hip,
-                    "Right Body Angle" : right_body_angle
+                    "Right Body Angle" : right_body_angle,
+                    "Reba Upper Left Arm": rebaLeftArm
                 }
                 
                 if socketIsOpen == False:
