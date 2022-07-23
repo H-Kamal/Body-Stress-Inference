@@ -2,6 +2,7 @@ import cv2
 import mediapipe as mp
 import numpy as np
 import server
+import rebaAnalysis
 
 mp_drawing = mp.solutions.drawing_utils # this gives us all of our drawing utilities
 mp_pose = mp.solutions.pose # this is importing our pose estimation models
@@ -46,14 +47,17 @@ def determining_joints():
                 left_ear = [landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].x, landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].y]
                 
                 
-                print("Nose - right ear: ", nose[0] - right_ear[0], 
-                      "\nnose - left ear: ", nose[0] - left_ear[0], 
-                      "\nright ear - left ear: ", left_ear[0] - right_ear[0],
-                      "\n")
+                # print("Nose - right ear: ", nose[0] - right_ear[0], 
+                #       "\nnose - left ear: ", nose[0] - left_ear[0], 
+                #       "\nright ear - left ear: ", left_ear[0] - right_ear[0],
+                #       "\n")
+
                                 
                 # Calculate angle
                 left_body_angle = calculate_angle(left_hip, left_shoulder, left_elbow)
                 right_body_angle = calculate_angle(right_hip, right_shoulder, right_elbow)
+
+                print(rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_body_angle))
                 
                 # Check threshold before adding body parts data to body parts dictionary and sending data.
                 body_parts = {
