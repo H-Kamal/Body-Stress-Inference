@@ -41,10 +41,20 @@ def determining_joints():
                 right_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
                 right_hip = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y]
                 
+                nose = [landmarks[mp_pose.PoseLandmark.NOSE.value].x,landmarks[mp_pose.PoseLandmark.NOSE.value].y]
+                right_ear = [landmarks[mp_pose.PoseLandmark.RIGHT_EAR.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_EAR.value].y]
+                left_ear = [landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].x, landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].y]
+                
+                
+                print("Nose - right ear: ", nose[0] - right_ear[0], 
+                      "\nnose - left ear: ", nose[0] - left_ear[0], 
+                      "\nright ear - left ear: ", left_ear[0] - right_ear[0],
+                      "\n")
+                                
                 # Calculate angle
                 left_body_angle = calculate_angle(left_hip, left_shoulder, left_elbow)
-                # right_body_angle = calculate_angle(right_hip, right_shoulder, right_elbow)
-                right_body_angle = -999
+                right_body_angle = calculate_angle(right_hip, right_shoulder, right_elbow)
+                
                 # Check threshold before adding body parts data to body parts dictionary and sending data.
                 body_parts = {
                     "Left Shoulder": left_shoulder,
@@ -109,7 +119,7 @@ def calculate_angle(a, b, c):
     c = np.array(c) # End
     
     radians = np.arctan2(c[1] - b[1], c[0] - b[0]) - np.arctan2(a[1] - b[1], a[0] - b[0])
-    angle = np.abs(radians*180.0/np.pi)
+    angle = radians*180.0/np.pi
     
     if angle > 180.0:
         angle = 360-angle
