@@ -44,9 +44,9 @@ def determining_joints():
                 right_hip = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y]
 
                 # Calculate angle
-                left_body_angle = calculate_angle(left_shoulder, left_elbow, left_hip)
-                right_body_angle = calculate_angle(right_shoulder, right_elbow, right_hip)
-
+                left_body_angle = calculate_angle(left_hip, left_shoulder, left_elbow)
+                right_body_angle = calculate_angle(right_hip, right_shoulder, right_elbow)
+                
                 body_parts = {
                     "Left Shoulder": left_shoulder,
                     "Left Elbow" : left_elbow,
@@ -112,7 +112,7 @@ def calculate_angle(a, b, c):
     radians = np.arctan2(c[1] - b[1], c[0] - b[0]) - np.arctan2(a[1] - b[1], a[0] - b[0])
     angle = np.abs(radians*180.0/np.pi)
     
-    if angle >180.0:
+    if angle > 180.0:
         angle = 360-angle
         
     return angle 
