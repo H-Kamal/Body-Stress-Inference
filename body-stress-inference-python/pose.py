@@ -11,11 +11,13 @@ mp_pose = mp.solutions.pose # this is importing our pose estimation models
 cap = cv2.VideoCapture(0)
 
 def determining_joints():
+    # stage = None
+    
     PORT  = 1755
-    socketIsOpen = False
+    # socketIsOpen = False
+    
     # Curl reba_angle variables
-    reba_angle = 0 
-    stage = None
+    reba_angle = 0
     SAMPLE_SIZE = 10
     angleArr = []
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
@@ -99,11 +101,7 @@ def determining_joints():
             
             # Render Reba angle
             cv2.putText(image, 'REBA Angle:' + str(reba_angle), (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
-            
-            # # Stage data
-            # cv2.putText(image, 'STAGE', (65,12), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-            # cv2.putText(image, stage, (60,60), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
-            
+                        
             # Render detections
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                       mp_drawing.DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=2),
