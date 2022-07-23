@@ -65,6 +65,7 @@ def determining_joints():
                 else:
                     avgAngle = sum(angleArr) / len(angleArr)
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_body_angle) # do REBA analysis taken on angle
+                    counter = rebaLeftArm # this needs to be removed
                     print(rebaLeftArm)
                     angleArr = []
                     
