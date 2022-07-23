@@ -3,6 +3,8 @@ import mediapipe as mp
 import numpy as np
 import server
 import rebaAnalysis
+import threading as th
+
 
 mp_drawing = mp.solutions.drawing_utils # this gives us all of our drawing utilities
 mp_pose = mp.solutions.pose # this is importing our pose estimation models
@@ -17,7 +19,6 @@ def determining_joints():
     SAMPLE_SIZE = 10
     angleArr = []
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
-
         while cap.isOpened():
             ret, frame = cap.read()
             
@@ -58,32 +59,31 @@ def determining_joints():
                 # Calculate angle
                 left_body_angle = calculate_angle(left_hip, left_shoulder, left_elbow)
                 right_body_angle = calculate_angle(right_hip, right_shoulder, right_elbow)
-
-                if len(angleArr) <= SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
+                
+                if len(angleArr) < SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
                     angleArr.append(left_body_angle)
                 else:
                     avgAngle = sum(angleArr) / len(angleArr)
+                    print(avgAngle)
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], avgAngle) # do REBA analysis taken on angle
-                    print(rebaLeftArm)
+                    counter = rebaLeftArm
+                    print("reba left arm: ", rebaLeftArm)
                     angleArr = []
-
-                # Check threshold before adding body parts data to body parts dictionary and sending data.
-                body_parts = {
-                    "Left Shoulder": left_shoulder,
-                    "Left Elbow" : left_elbow,
-                    "Left Hip": left_hip,
-                    "Left Body Angle" : left_body_angle,
-                    "Right Shoulder": right_shoulder,
-                    "Right Elbow" : right_elbow,
-                    "Right Hip": right_hip,
-                    "Right Body Angle" : right_body_angle,
-                    "Reba Upper Left Arm": rebaLeftArm
-                }
-                
-                if socketIsOpen == False:
+                    
+                    body_parts = {
+                        "Left Shoulder": left_shoulder,
+                        "Left Elbow" : left_elbow,
+                        "Left Hip": left_hip,
+                        "Left Body Angle" : left_body_angle,
+                        "Right Shoulder": right_shoulder,
+                        "Right Elbow" : right_elbow,
+                        "Right Hip": right_hip,
+                        "Right Body Angle" : right_body_angle,
+                        "Reba Upper Left Arm": rebaLeftArm
+                    }      
+                    
                     socket = server.connectSocket(PORT)
                     server.sendJSONDataToUnity(socket, body_parts)
-                    socketIsOpen = True
                 
                 # Visualize angle
                 cv2.putText(image, str(left_body_angle), tuple(np.multiply(left_elbow, [640, 480]).astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
@@ -100,11 +100,11 @@ def determining_joints():
             
             # Render curl counter
             # Setup status box
-            # cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
+            cv2.rectangle(image, (0,0), (225,73), (245,117,16), -1)
             
             # # Rep data
             # cv2.putText(image, 'REPS', (15,12), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
-            # cv2.putText(image, str(counter), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
+            cv2.putText(image, str(counter), (10,60), cv2.FONT_HERSHEY_SIMPLEX, 2, (255,255,255), 2, cv2.LINE_AA)
             
             # # Stage data
             # cv2.putText(image, 'STAGE', (65,12), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0,0,0), 1, cv2.LINE_AA)
