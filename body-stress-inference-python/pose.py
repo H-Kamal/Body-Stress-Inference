@@ -64,14 +64,15 @@ def determining_joints():
                     socketIsOpen = True
                 
                 # Visualize angle
-                cv2.putText(image, str(angle), tuple(np.multiply(elbow, [640, 480]).astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(image, str(left_body_angle), tuple(np.multiply(left_elbow, [640, 480]).astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
+                cv2.putText(image, str(right_body_angle), tuple(np.multiply(right_elbow, [640, 480]).astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
                 
                 # Curl counter logic
-                if angle > 160:
-                    stage = "down"
-                if angle < 30 and stage =='down':
-                    stage="up"
-                    counter +=1
+                # if angle > 160:
+                #     stage = "down"
+                # if angle < 30 and stage =='down':
+                #     stage="up"
+                #     counter +=1
             except:
                 pass    
             
