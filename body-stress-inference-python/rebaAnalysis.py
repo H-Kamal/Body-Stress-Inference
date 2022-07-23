@@ -8,8 +8,12 @@ def CalcUpperArmPosREBA(pose_dir, angle):
 	if pose_dir > 0: # facing away from origin.
 		angle = -angle # flip angle as facing away has you lifting arms up as negative
 
+	print(angle)
+
 	if angle < -20:
 		return 2
+	if angle > -270 and angle < -215:
+		return 3
 	elif angle > -20 and angle < 20:
 		return 1 # normal range of motion - lowest risk
 	elif angle > 20 and angle < 45:
