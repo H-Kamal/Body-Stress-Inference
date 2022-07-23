@@ -49,13 +49,11 @@ def determining_joints():
                 print("Nose - right ear: ", nose[0] - right_ear[0], 
                       "\nnose - left ear: ", nose[0] - left_ear[0], 
                       "\nright ear - left ear: ", left_ear[0] - right_ear[0],
-                      "\n"
-                      )
+                      "\n")
                                 
                 # Calculate angle
                 left_body_angle = calculate_angle(left_hip, left_shoulder, left_elbow)
                 right_body_angle = calculate_angle(right_hip, right_shoulder, right_elbow)
-                # right_body_angle = -999
                 
                 # Check threshold before adding body parts data to body parts dictionary and sending data.
                 body_parts = {
