@@ -13,7 +13,6 @@ public class SocketConnection : MonoBehaviour
     static Socket listener;
     private CancellationTokenSource source;
     public ManualResetEvent allDone;
-    public Renderer objectRenderer;
     private Color matColor;
     public JointData jointData;
 
@@ -31,14 +30,12 @@ public class SocketConnection : MonoBehaviour
     // Start is called before the first frame update
     async void Start()
     {
-        objectRenderer = GetComponent<Renderer>();
         await Task.Run(() => ListenEvents(source.Token));
     }
 
     // Update is called once per frame
     void Update()
     {
-        objectRenderer.material.color = matColor;
     }
 
     private void ListenEvents(CancellationToken token)
@@ -118,25 +115,10 @@ public class SocketConnection : MonoBehaviour
                 
                 print($"Read {content.Length} bytes from socket.\n Data : {content}");
                 jointData = JsonConvert.DeserializeObject<JointData>(content);
-                print(jointData.rebaUpperLeftArm);
-                //SetColors(content);
+                REBA.setREBAColors(jointData);
             }
             handler.Close();
         }
-    }
-
-    //Set color to the Material
-    private void SetColors(string data)
-    {
-        string[] colors = data.Split(',');
-        matColor = new Color()
-        {
-            r = float.Parse(colors[0]) / 255.0f,
-            g = float.Parse(colors[1]) / 255.0f,
-            b = float.Parse(colors[2]) / 255.0f,
-            a = float.Parse(colors[3]) / 255.0f
-        };
-
     }
 
     private void OnDestroy()
