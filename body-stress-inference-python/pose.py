@@ -61,7 +61,7 @@ def determining_joints():
                 # Calculate angle
                 # left_body_angle = calculate_angle(left_hip, left_shoulder, left_elbow)                
                 # right_body_angle = calculate_angle(right_hip, right_shoulder, right_elbow)
-                left_body_angle = calc_cosine_law(left_hip, left_shoulder, left_elbow)
+                left_body_angle = calc_cosine_law(left_shoulder, left_elbow, left_hip)
                 right_body_angle = calc_cosine_law(left_hip, left_shoulder, left_elbow)
                 
                 if len(angleArr) < SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
@@ -134,13 +134,14 @@ def calculate_angle(a, b, c):
     return angle 
 
 def calc_cosine_law(a,b,c):
+    # calc_cosine_law(left_shoulder, left_elbow, left_hip)
     a = np.array(a) # First
     b = np.array(b) # Mid
     c = np.array(c) # End
     
-    aDist = np.sqrt((c[0]-b[0])**2 + (c[1]-b[1])**2)
-    bDist = np.sqrt((a[0]-c[0])**2 + (a[1]-c[1])**2)
-    cDist = np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
-    radians = np.arccos((aDist**2 + bDist**2 -cDist**2) / (2*aDist*bDist)) 
+    abDist = np.sqrt((a[0]-b[0])**2 + (a[1]-b[1])**2)
+    acDist = np.sqrt((a[0]-c[0])**2 + (a[1]-c[1])**2)
+    bcDist = np.sqrt((b[0]-c[0])**2 + (b[1]-c[1])**2)
+    radians = np.arccos((abDist**2 + acDist**2 -bcDist**2) / (2*abDist*acDist)) 
     angle = radians*180.0/np.pi
     return angle
