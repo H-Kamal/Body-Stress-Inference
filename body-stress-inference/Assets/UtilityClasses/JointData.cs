@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class JointData
 {
-    public double Angle { get; set; }
-    public double[] Shoulder { get; set; }
-    public double[] Elbow { get; set; }
-    public double[] Wrist { get; set; }
-
+    public double[] leftShoulder { get; set; }
+    public double[] leftElbow { get; set; }
+    public double[] leftHip { get; set; }
+    public double leftBodyAngle { get; set; }
+    public double[] rightShoulder { get; set; }
+    public double[] rightElbow { get; set; }
+    public double[] rightHip { get; set; }
+    public double rightBodyAngle { get; set; }
+    public double rebaUpperLeftArm { get; set; }
 }

@@ -58,15 +58,15 @@ def determining_joints():
                     angleArr = []
                     
                     body_parts = {
-                        "Left Shoulder": left_shoulder,
-                        "Left Elbow" : left_elbow,
-                        "Left Hip": left_hip,
-                        "Left Body Angle" : left_body_angle,
-                        "Right Shoulder": right_shoulder,
-                        "Right Elbow" : right_elbow,
-                        "Right Hip": right_hip,
-                        "Right Body Angle" : right_body_angle,
-                        "Reba Upper Left Arm": rebaLeftArm
+                        "leftShoulder": left_shoulder,
+                        "leftElbow" : left_elbow,
+                        "leftHip": left_hip,
+                        "leftBodyAngle" : left_body_angle,
+                        "rightShoulder": right_shoulder,
+                        "rightElbow" : right_elbow,
+                        "rightHip": right_hip,
+                        "rightBodyAngle" : right_body_angle,
+                        "rebaUpperLeftArm": rebaLeftArm
                     }      
                     
                     socket = server.connectSocket(PORT)
