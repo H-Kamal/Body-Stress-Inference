@@ -1,8 +1,3 @@
-
-import random
-import json
-from time import sleep
-
 # pose direction is asserted via calculating x distance from left ear to nose.
 def CalcUpperArmPosREBA(nose_to_ear_x, elbow_to_hip_x, angle):
 	if nose_to_ear_x * elbow_to_hip_x < 0: # facing away from origin.
