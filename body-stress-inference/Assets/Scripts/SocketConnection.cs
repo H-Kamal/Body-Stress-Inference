@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
+using Newtonsoft.Json;
 
 public class SocketConnection : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class SocketConnection : MonoBehaviour
     public ManualResetEvent allDone;
     public Renderer objectRenderer;
     private Color matColor;
+    public JointData jointData;
 
     public static readonly int PORT = 1755;
     public static readonly int WAITTIME = 1;
@@ -21,6 +23,7 @@ public class SocketConnection : MonoBehaviour
 
     SocketConnection()
     {
+        jointData = new JointData();
         source = new CancellationTokenSource();
         allDone = new ManualResetEvent(false);
     }
@@ -113,7 +116,9 @@ public class SocketConnection : MonoBehaviour
                 //All of the data has been read
                 string content = state.colorCode.ToString();
                 print($"Read {content.Length} bytes from socket.\n Data : {content}");
-                SetColors(content);
+                jointData = JsonConvert.DeserializeObject<JointData>(content);
+                print(jointData.Angle);
+                //SetColors(content);
             }
             handler.Close();
         }
