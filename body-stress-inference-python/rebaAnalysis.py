@@ -10,8 +10,6 @@ def CalcUpperArmPosREBA(nose_to_ear_x, elbow_to_hip_x, angle):
 	print("internal :", angle)
 	if angle < -20:
 		return 2
-	if angle > -270 and angle < -215:
-		return 3
 	elif angle > -20 and angle < 20:
 		return 1 # normal range of motion - lowest risk
 	elif angle > 20 and angle < 45:
