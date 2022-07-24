@@ -68,9 +68,9 @@ def determining_joints():
                     angleArr.append(left_body_angle)
                 else:
                     avgAngle = sum(angleArr) / len(angleArr)
-                    rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_hip[0] - left_elbow[0], left_body_angle) # do REBA analysis taken on angle
+                    rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_body_angle) # do REBA analysis taken on angle
                     reba_angle = rebaLeftArm # this needs to be removed
-                    print(rebaLeftArm)
+                    print(left_body_angle)
                     angleArr = []
                     
                     body_parts = {
@@ -102,7 +102,7 @@ def determining_joints():
                 pass    
             
             # Render Reba angle
-            cv2.putText(image, 'REBA Angle:' + str(reba_angle), (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
+            cv2.putText(image, 'REBA Score:' + str(reba_angle), (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
                         
             # Render detections
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
