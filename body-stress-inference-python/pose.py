@@ -70,7 +70,7 @@ def determining_joints():
                     avgAngle = sum(angleArr) / len(angleArr)
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_body_angle) # do REBA analysis taken on angle
                     reba_angle = rebaLeftArm # this needs to be removed
-                    print(left_body_angle)
+                    print("pose angle: ", left_body_angle)
                     angleArr = []
                     
                     body_parts = {
