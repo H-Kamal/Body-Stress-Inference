@@ -17,6 +17,8 @@ def CalcUpperArmPosREBA(nose_to_ear_x, elbow_to_hip_x, angle):
 	return -1 # means undefined, if an angle or nose_to_ear_dist was not provided, then ignore value
 
 def calcLegAdjustmentsREBA(angle):
+	if angle < 30:
+		return 0
 	if angle >= 30 and angle < 60:
 		return 1
 	elif angle >= 60:
