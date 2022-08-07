@@ -20,5 +20,6 @@ def calcLegAdjustmentsREBA(angle):
 	if angle >= 30 and angle < 60:
 		return 1
 	elif angle >= 60:
+		return 2
 
 	return -1
