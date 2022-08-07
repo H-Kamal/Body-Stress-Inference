@@ -51,7 +51,7 @@ def determining_joints():
                 # Calculate angle
                 left_body_angle = cu.calc_cosine_law(left_shoulder, left_elbow, left_hip)
                 right_body_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
-                leg_adj_angle = cu.calc_cosine_law(left_ankle, left_knee, left_hip)
+                leg_adj_angle = cu.calc_cosine_law(left_knee, left_ankle, left_hip)
 
                 # TODO: Add lines 52 to 75 to a function - should return body parts
                 if len(angleArr) < SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
