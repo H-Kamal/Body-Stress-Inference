@@ -44,16 +44,23 @@ def determining_joints():
                 nose = [landmarks[mp_pose.PoseLandmark.NOSE.value].x,landmarks[mp_pose.PoseLandmark.NOSE.value].y]
                 right_ear = [landmarks[mp_pose.PoseLandmark.RIGHT_EAR.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_EAR.value].y]
                 left_ear = [landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].x, landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].y]
+
+                left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
+                left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
            
                 # Calculate angle
                 left_body_angle = cu.calc_cosine_law(left_shoulder, left_elbow, left_hip)
                 right_body_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
-                
+                leg_adj_angle = cu.calc_cosine_law(left_ankle, left_knee, left_hip)
+
+                # TODO: Add lines 52 to 75 to a function - should return body parts
                 if len(angleArr) < SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
                     angleArr.append(left_body_angle)
                 else:
                     avgAngle = sum(angleArr) / len(angleArr)
-                    rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], avgAngle) # do REBA analysis taken on angle
+                    rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_body_angle) # do REBA analysis taken on angle
+                    rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_body_angle)
+                    rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
                     reba_value = rebaLeftArm
                     angleArr = []
                     
@@ -66,7 +73,9 @@ def determining_joints():
                         "rightElbow" : right_elbow,
                         "rightHip": right_hip,
                         "rightBodyAngle" : right_body_angle,
-                        "rebaUpperLeftArm": rebaLeftArm
+                        "rebaUpperLeftArm": rebaLeftArm,
+                        "rebaUpperRightArm": rebaRightArm,
+                        "rebaLegAdj": rebaLegAdj,
                     }      
                     
                     socket = server.connectSocket(PORT)
