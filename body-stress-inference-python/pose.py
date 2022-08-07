@@ -61,7 +61,7 @@ def determining_joints():
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_body_angle) # do REBA analysis taken on angle
                     rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_body_angle)
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
-                    reba_value = rebaLeftArm
+                    reba_value = rebaLegAdj
                     angleArr = []
                     
                     body_parts = {
