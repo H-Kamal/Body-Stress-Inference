@@ -26,7 +26,8 @@ def calcLegAdjustmentsREBA(angle):
 	return -1 # means undefined, if an angle or nose_to_ear_dist was not provided, then ignore value
 
 def calcLowerArmPosREBA(angle):
-	print("reba angle :", angle)
+	angle = abs(angle - 180) # subtract angle so that we get it from the perspective of the hip
+	# print("reba angle :", angle)
 	if angle > 0 and angle < 60 :
 		return 2
 	elif angle >= 60 and angle < 100:
@@ -37,7 +38,7 @@ def calcLowerArmPosREBA(angle):
 	return -1
 
 
-def calcTrunkAdjustmentsREBA(angle):
+def calcTrunkREBA(angle):
 	if angle == 0:
 		return 1
 	elif 0 < angle <= 20:

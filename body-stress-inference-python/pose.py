@@ -56,14 +56,14 @@ def determining_joints():
                 left_arm_angle = cu.calc_cosine_law(left_shoulder, left_elbow, left_hip)
                 right_arm_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
                 left_lower_arm_angle = cu.calc_cosine_law(left_shoulder, left_wrist, left_elbow)
-                right_lower_arm_angle = cu.calc_cosine_law(right_shoulder, right_wrist, right_elbow)
+                right_lower_arm_angle = cu.calc_cosine_law(right_elbow, right_shoulder, right_wrist)
                 leg_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
                 trunk_angle = cu.calc_cosine_law(left_hip, nose, left_ankle)
                 
                 
                 # TODO: Add lines 52 to 75 to a function - should return body parts
                 if len(angleArr) < SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
-                    angleArr.append(left_body_angle)
+                    angleArr.append(left_arm_angle)
                 else:
                     avgAngle = sum(angleArr) / len(angleArr)
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_arm_angle) # do REBA analysis taken on angle
@@ -71,6 +71,7 @@ def determining_joints():
                     rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)
                     rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(right_lower_arm_angle)
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
+                    rebaTrunk = rebaAnalysis.calcTrunkREBA(trunk_angle)
                     reba_value = rebaLowerRightArm
                     angleArr = []
                     
@@ -78,15 +79,15 @@ def determining_joints():
                         "leftShoulder": left_shoulder,
                         "leftElbow" : left_elbow,
                         "leftHip": left_hip,
-                        "leftBodyAngle" : left_body_angle,
+                        "leftBodyAngle" : left_arm_angle,
                         "rightShoulder": right_shoulder,
                         "rightElbow" : right_elbow,
                         "rightHip": right_hip,
-                        "rightBodyAngle" : right_body_angle,
+                        "rightBodyAngle" : right_arm_angle,
                         "rebaUpperLeftArm": rebaLeftArm,
                         "rebaUpperRightArm": rebaRightArm,
                         "rebaLegAdj": rebaLegAdj,
-                        "rebaTrunkAdj": rebaTrunkAdj
+                        "rebaTrunkAdj": rebaTrunk
                     }      
                     
                     socket = server.connectSocket(PORT)
