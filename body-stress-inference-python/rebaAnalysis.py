@@ -38,12 +38,21 @@ def calcLowerArmPosREBA(angle):
 	return -1 # means undefined, if an angle or nose_to_ear_dist was not provided, then ignore value
 
 
-def calcTrunkREBA(angle):
-	if 0 <= angle <= 10:
+def calcTrunkREBA(nose_to_ear_x, elbow_to_hip_x, angle):
+    # calculation for backwards movement
+	if nose_to_ear_x * elbow_to_hip_x < 0: # facing away from origin.
+		angle = -angle # flip angle as facing away has you lifting arms up as negative
+	if -20 <= angle <= -10:
+		return 2
+	elif -10 < angle <= 0:
+		return 1
+	elif 0 < angle <= 10:
 		return 1
 	elif 10 < angle <= 20:
 		return 2
 	elif 20 < angle <= 60:
+		return 3
+	elif angle < -20:
 		return 3
 	elif angle > 60:
 		return 4
