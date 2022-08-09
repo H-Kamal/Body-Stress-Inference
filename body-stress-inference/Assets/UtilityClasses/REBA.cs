@@ -14,7 +14,6 @@ public static class REBA
     private const int MEDIUM = 2;
     private const int HIGH = 4;
 
-    public static Color upperLeftArmColor;
     public static IDictionary<string, Color> REBAScoreColors;
     static REBA()
     {
