@@ -35,7 +35,7 @@ def determining_joints():
                 # Get coordinates
                 left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
                 right_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
-                
+
                 left_elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
                 right_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
 
@@ -68,12 +68,10 @@ def determining_joints():
                     avgAngle = sum(angleArr) / len(angleArr)
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_arm_angle) # do REBA analysis taken on angle
                     rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
-                    rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(nose[0] - right_ear[0], left_elbow[0] - left_hip[0], left_lower_arm_angle)
-                    rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_lower_arm_angle)
+                    rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)
+                    rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(right_lower_arm_angle)
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
-                    rebaTrunkAdj = rebaAnalysis.calcTrunkAdjustmentsREBA(trunk_angle)
-                    
-                    reba_value = rebaLegAdj
+                    reba_value = rebaLowerRightArm
                     angleArr = []
                     
                     body_parts = {
