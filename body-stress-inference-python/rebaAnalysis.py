@@ -41,6 +41,7 @@ def calcTrunkREBA(nose_to_ear_x, elbow_to_hip_x, angle):
     # calculation for backwards movement
 	if nose_to_ear_x * elbow_to_hip_x < 0: # facing away from origin.
 		angle = -angle # flip angle as facing away has you lifting arms up as negative
+	print("reba trunk angle: ", angle)
 	if -20 <= angle <= -10:
 		return 2
 	elif -10 < angle <= 0:
