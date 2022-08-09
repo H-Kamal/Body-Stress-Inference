@@ -34,11 +34,12 @@ def determining_joints():
                 landmarks = results.pose_landmarks.landmark
                 # Get coordinates
                 left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-                left_elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-                left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
-
                 right_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
+                
+                left_elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
                 right_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
+
+                left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
                 right_hip = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y]
                 
                 nose = [landmarks[mp_pose.PoseLandmark.NOSE.value].x,landmarks[mp_pose.PoseLandmark.NOSE.value].y]
@@ -47,10 +48,15 @@ def determining_joints():
 
                 left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
                 left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
+
+                left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+                right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
            
                 # Calculate angle
-                left_body_angle = cu.calc_cosine_law(left_shoulder, left_elbow, left_hip)
-                right_body_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
+                left_arm_angle = cu.calc_cosine_law(left_shoulder, left_elbow, left_hip)
+                right_arm_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
+                left_lower_arm_angle = cu.calc_cosine_law(left_shoulder, left_wrist, left_elbow)
+                right_lower_arm_angle = cu.calc_cosine_law(right_shoulder, right_wrist, right_elbow)
                 leg_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
 
                 # TODO: Add lines 52 to 75 to a function - should return body parts
@@ -58,8 +64,10 @@ def determining_joints():
                     angleArr.append(left_body_angle)
                 else:
                     avgAngle = sum(angleArr) / len(angleArr)
-                    rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_body_angle) # do REBA analysis taken on angle
-                    rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_body_angle)
+                    rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_arm_angle) # do REBA analysis taken on angle
+                    rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
+                    rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(nose[0] - right_ear[0], left_elbow[0] - left_hip[0], left_lower_arm_angle)
+                    rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_lower_arm_angle)
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
                     reba_value = rebaLegAdj
                     angleArr = []
