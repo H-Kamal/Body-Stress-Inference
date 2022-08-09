@@ -35,13 +35,13 @@ def calcLowerArmPosREBA(angle):
 	elif angle >= 100:
 		return 2
 
-	return -1
+	return -1 # means undefined, if an angle or nose_to_ear_dist was not provided, then ignore value
 
 
 def calcTrunkREBA(angle):
-	if angle == 0:
+	if 0 <= angle <= 10:
 		return 1
-	elif 0 < angle <= 20:
+	elif 10 < angle <= 20:
 		return 2
 	elif 20 < angle <= 60:
 		return 3
