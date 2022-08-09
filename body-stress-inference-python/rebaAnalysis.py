@@ -37,7 +37,6 @@ def calcLowerArmPosREBA(angle):
 
 	return -1 # means undefined, if an angle or nose_to_ear_dist was not provided, then ignore value
 
-
 def calcTrunkREBA(nose_to_ear_x, elbow_to_hip_x, angle):
     # calculation for backwards movement
 	if nose_to_ear_x * elbow_to_hip_x < 0: # facing away from origin.
