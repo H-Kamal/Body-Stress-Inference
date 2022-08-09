@@ -58,7 +58,9 @@ def determining_joints():
                 left_lower_arm_angle = cu.calc_cosine_law(left_shoulder, left_wrist, left_elbow)
                 right_lower_arm_angle = cu.calc_cosine_law(right_shoulder, right_wrist, right_elbow)
                 leg_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
-
+                trunk_angle = cu.calc_cosine_law(left_hip, nose, left_ankle)
+                
+                
                 # TODO: Add lines 52 to 75 to a function - should return body parts
                 if len(angleArr) < SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
                     angleArr.append(left_body_angle)
@@ -69,6 +71,8 @@ def determining_joints():
                     rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(nose[0] - right_ear[0], left_elbow[0] - left_hip[0], left_lower_arm_angle)
                     rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_lower_arm_angle)
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
+                    rebaTrunkAdj = rebaAnalysis.calcTrunkAdjustmentsREBA(trunk_angle)
+                    
                     reba_value = rebaLegAdj
                     angleArr = []
                     
@@ -84,6 +88,7 @@ def determining_joints():
                         "rebaUpperLeftArm": rebaLeftArm,
                         "rebaUpperRightArm": rebaRightArm,
                         "rebaLegAdj": rebaLegAdj,
+                        "rebaTrunkAdj": rebaTrunkAdj
                     }      
                     
                     socket = server.connectSocket(PORT)
@@ -95,6 +100,7 @@ def determining_joints():
             except:
                 pass    
             
+            #TODO: update the following line so that it works with any angle from without an intermediary variable (not a core issue)
             # Render Reba angle
             cv2.putText(image, 'REBA Score:' + str(reba_value), (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
                         

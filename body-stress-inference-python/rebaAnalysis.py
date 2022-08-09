@@ -24,8 +24,7 @@ def calcLegAdjustmentsREBA(angle):
 	elif angle >= 60:
 		return 2
 
-	return -1
-
+	return -1 # means undefined, if an angle or nose_to_ear_dist was not provided, then ignore value
 
 def calcLowerArmPosREBA(nose_to_ear_x, elbow_to_hip_x, angle):
 	if nose_to_ear_x * elbow_to_hip_x < 0: # facing away from origin.
@@ -41,4 +40,15 @@ def calcLowerArmPosREBA(nose_to_ear_x, elbow_to_hip_x, angle):
 	elif angle >= 90:
 		return 4
 
+	return -1 # means undefined, if an angle or nose_to_ear_dist was not provided, then ignore value
+
+def calcTrunkAdjustmentsREBA(angle):
+	if angle == 0:
+		return 1
+	elif 0 < angle <= 20:
+		return 2
+	elif 20 < angle <= 60:
+		return 3
+	elif angle > 60:
+		return 4
 	return -1 # means undefined, if an angle or nose_to_ear_dist was not provided, then ignore value
