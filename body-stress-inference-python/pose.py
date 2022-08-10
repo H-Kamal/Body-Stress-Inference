@@ -12,7 +12,7 @@ def determining_joints():
     PORT  = 1755    
     reba_value = 0
     SAMPLE_SIZE = 5
-    angleArr = []
+    sampleCount = 0
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         while cap.isOpened():
@@ -34,39 +34,64 @@ def determining_joints():
                 landmarks = results.pose_landmarks.landmark
                 # Get coordinates
                 left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
-                left_elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
-                left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
-
                 right_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
+
+                left_elbow = [landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.LEFT_ELBOW.value].y]
                 right_elbow = [landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_ELBOW.value].y]
+
+                left_hip = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x,landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].y]
                 right_hip = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].y]
                 
                 nose = [landmarks[mp_pose.PoseLandmark.NOSE.value].x,landmarks[mp_pose.PoseLandmark.NOSE.value].y]
                 right_ear = [landmarks[mp_pose.PoseLandmark.RIGHT_EAR.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_EAR.value].y]
                 left_ear = [landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].x, landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].y]
+
+                left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
+                right_ankle = [landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].y]
+                left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
+
+                left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
+                right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
            
                 # Calculate angle
-                left_body_angle = cu.calc_cosine_law(left_shoulder, left_elbow, left_hip)
-                right_body_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
+                left_arm_angle = cu.calc_cosine_law(left_shoulder, left_elbow, left_hip)
+                right_arm_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
+                left_lower_arm_angle = cu.calc_cosine_law(left_shoulder, left_wrist, left_elbow)
+                right_lower_arm_angle = cu.calc_cosine_law(right_elbow, right_shoulder, right_wrist)
+                leg_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
+                trunk_angle = cu.calc_cosine_law(left_hip, nose, left_ankle)
+                neck_angle = cu.calc_cosine_law(left_shoulder, nose, left_ear)
                 
-                if len(angleArr) < SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
-                    angleArr.append(left_body_angle)
-                else:
-                    avgAngle = sum(angleArr) / len(angleArr)
-                    rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], avgAngle) # do REBA analysis taken on angle
-                    reba_value = rebaLeftArm
-                    angleArr = []
+                sampleCount += 1
+                # TODO: Add lines 52 to 75 to a function - should return body parts
+                if sampleCount >= SAMPLE_SIZE: # take a sample every 5 iterations of the loop
+                    rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_arm_angle) # do REBA analysis taken on angle
+                    rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
+                    rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)
+                    rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(right_lower_arm_angle)
+                    rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
+                    rebaTrunk = rebaAnalysis.calcTrunkREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], trunk_angle)
+                    rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
+                    reba_value = rebaNeck
+                    
+                    sampleCount = 0
                     
                     body_parts = {
                         "leftShoulder": left_shoulder,
                         "leftElbow" : left_elbow,
                         "leftHip": left_hip,
-                        "leftBodyAngle" : left_body_angle,
+                        "leftBodyAngle" : left_arm_angle,
                         "rightShoulder": right_shoulder,
                         "rightElbow" : right_elbow,
                         "rightHip": right_hip,
-                        "rightBodyAngle" : right_body_angle,
-                        "rebaUpperLeftArm": rebaLeftArm
+                        "rightBodyAngle" : right_arm_angle,
+                        "rebaUpperLeftArm": rebaLeftArm,
+                        "rebaUpperRightArm": rebaRightArm,
+                        "rebaLowerLeftArm": rebaLowerLeftArm,
+                        "rebaLowerRightArm": rebaLowerRightArm,
+                        "rebaLegAdj": rebaLegAdj,
+                        "rebaTrunk": rebaTrunk,
+                        "rebaNeck": rebaNeck
                     }      
                     
                     socket = server.connectSocket(PORT)
@@ -78,6 +103,7 @@ def determining_joints():
             except:
                 pass    
             
+            #TODO: update the following line so that it works with any angle from without an intermediary variable (not a core issue)
             # Render Reba angle
             cv2.putText(image, 'REBA Score:' + str(reba_value), (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
                         
