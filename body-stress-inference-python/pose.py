@@ -72,6 +72,9 @@ def determining_joints():
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
                     rebaTrunk = rebaAnalysis.calcTrunkREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], trunk_angle)
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
+                    
+                    rebaAverage = (rebaLeftArm + rebaRightArm + rebaLowerLeftArm + rebaLowerRightArm + rebaLegAdj + rebaTrunk + rebaNeck)/7
+                    
                     reba_value = rebaNeck
                     
                     sampleCount = 0
@@ -91,7 +94,8 @@ def determining_joints():
                         "rebaLowerRightArm": rebaLowerRightArm,
                         "rebaLegAdj": rebaLegAdj,
                         "rebaTrunk": rebaTrunk,
-                        "rebaNeck": rebaNeck
+                        "rebaNeck": rebaNeck, 
+                        "rebaAverage": rebaAverage
                     }      
                     
                     socket = server.connectSocket(PORT)
