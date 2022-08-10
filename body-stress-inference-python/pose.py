@@ -47,6 +47,7 @@ def determining_joints():
                 left_ear = [landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].x, landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].y]
 
                 left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
+                right_ankle = [landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].y]
                 left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
 
                 left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
@@ -73,6 +74,7 @@ def determining_joints():
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
                     rebaTrunk = rebaAnalysis.calcTrunkREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], trunk_angle)
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
+                    rebaTest = rebaAnalysis.calcRaisedLegREBA(left_ankle[1], right_ankle[1])
                     reba_value = rebaNeck
                     angleArr = []
                     

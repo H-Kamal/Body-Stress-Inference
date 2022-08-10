@@ -61,6 +61,10 @@ def calcTrunkREBA(nose_to_ear_x, elbow_to_hip_x, angle):
 		return 4
 	return -1 # means undefined, if an angle or nose_to_ear_dist was not provided, then ignore value
 
+def calcRaisedLegREBA(left_ankle, right_ankle):
+	print("Left ankle y: ", left_ankle)
+	print("Right ankle y: ", right_ankle)
+
 def calcNeckREBA(nose_to_ear_x, nose_to_shoulder_x, angle):
     # calculation for backwards movement
 	if (nose_to_ear_x * nose_to_shoulder_x) < 0: # facing away from origin.
