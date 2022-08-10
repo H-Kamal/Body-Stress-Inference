@@ -65,7 +65,6 @@ def determining_joints():
                 sampleCount += 1
                 # TODO: Add lines 52 to 75 to a function - should return body parts
                 if sampleCount >= SAMPLE_SIZE: # take a sample every 5 iterations of the loop
-                    print(sampleCount)
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_arm_angle) # do REBA analysis taken on angle
                     rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
                     rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)

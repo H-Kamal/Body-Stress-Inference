@@ -23,6 +23,7 @@ public class JointData
     public double rebaLowerRightArm { get; set; }
     public double rebaLegAdj { get; set; }
     public double rebaTrunkAdj { get; set; }
+    public double rebaNeck {get; set;}
     public IDictionary<string, double> REBAScoreDic { get; set; }
 
     public void updateREBAScoresDic()
@@ -33,5 +34,6 @@ public class JointData
         REBAScoreDic["rebaLowerRightArm"] = rebaLowerRightArm;
         REBAScoreDic["rebaLegAdj"] = rebaLegAdj;
         REBAScoreDic["rebaTrunkAdj"] = rebaTrunkAdj;
+        REBAScoreDic["rebaNeck"] = rebaNeck;
     }
 }
