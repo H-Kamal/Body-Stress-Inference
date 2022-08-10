@@ -13,28 +13,32 @@ public static class REBA
     private const int LOW = 0;
     private const int MEDIUM = 2;
     private const int HIGH = 4;
-    public static Color upperLeftArmColor;
+
+    public static IDictionary<string, Color> REBAScoreColors;
     static REBA()
     {
         lowRiskColor = Color.green;
         mediumRiskColor = Color.yellow;
         highRiskColor = Color.red;
-
-        upperLeftArmColor = Color.white;
+        REBAScoreColors = new Dictionary<string, Color>();
     }
     public static void setREBAColors(JointData jointData)
     {
-        switch (jointData.rebaUpperLeftArm)
+        foreach (KeyValuePair<string, double> kvp in jointData.REBAScoreDic)
         {
-            case < MEDIUM:
-                upperLeftArmColor = lowRiskColor;
-                break;
-            case double risk when (risk >= MEDIUM && risk < HIGH):
-                upperLeftArmColor = mediumRiskColor;
-                break;
-            case >= HIGH:
-                upperLeftArmColor = highRiskColor;
-                break;
+            switch (kvp.Value)
+            {
+                case < MEDIUM:
+                    REBAScoreColors[kvp.Key] = lowRiskColor;
+                    break;
+                case double risk when (risk >= MEDIUM && risk < HIGH):
+                    REBAScoreColors[kvp.Key] = mediumRiskColor;
+                    break;
+                case >= HIGH:
+                    REBAScoreColors[kvp.Key] = highRiskColor;
+                    break;
+            }
         }
+      
     }
 }

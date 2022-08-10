@@ -15,7 +15,10 @@ public class ColorREBARisk : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        upperLeftArmRenderer.material.color = REBA.upperLeftArmColor;
+    {   
+        if(REBA.REBAScoreColors.Count > 0)
+        {
+            upperLeftArmRenderer.material.color = REBA.REBAScoreColors["rebaUpperLeftArm"];
+        }
     }
 }

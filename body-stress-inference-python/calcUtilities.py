@@ -14,6 +14,8 @@ def calculate_angle(a, b, c):
     return angle 
 
 def calc_cosine_law(a,b,c):
+    # a is leftmost, b in middle(top of triangle), and c is rightmost.
+    # angle calculated is from pov of point a.
     a = np.array(a) # First
     b = np.array(b) # Mid
     c = np.array(c) # End
