@@ -117,6 +117,7 @@ public class SocketConnection : MonoBehaviour
                 jointData = JsonConvert.DeserializeObject<JointData>(content);
                 jointData.updateREBAScoresDic();
                 REBA.setREBAColors(jointData);
+                RotationData.updateHumanRotationDic(jointData);
             }
             handler.Close();
         }
