@@ -12,7 +12,7 @@ def determining_joints():
     PORT  = 1755    
     reba_value = 0
     SAMPLE_SIZE = 5
-    angleArr = []
+    counter = 0
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         while cap.isOpened():
@@ -62,11 +62,9 @@ def determining_joints():
                 trunk_angle = cu.calc_cosine_law(left_hip, nose, left_ankle)
                 neck_angle = cu.calc_cosine_law(left_shoulder, nose, left_ear)
                 
+                counter += 1
                 # TODO: Add lines 52 to 75 to a function - should return body parts
-                if len(angleArr) < SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
-                    angleArr.append(left_arm_angle)
-                else:
-                    avgAngle = sum(angleArr) / len(angleArr)
+                if counter > SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_arm_angle) # do REBA analysis taken on angle
                     rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
                     rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)
@@ -76,7 +74,8 @@ def determining_joints():
                     reba_value = rebaTrunk
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
                     reba_value = rebaNeck
-                    angleArr = []
+                    
+                    counter = 0
                     
                     body_parts = {
                         "leftShoulder": left_shoulder,
