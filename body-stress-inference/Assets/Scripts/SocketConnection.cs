@@ -115,6 +115,7 @@ public class SocketConnection : MonoBehaviour
                 
                 print($"Read {content.Length} bytes from socket.\n Data : {content}");
                 jointData = JsonConvert.DeserializeObject<JointData>(content);
+                jointData.updateREBAScoresDic();
                 REBA.setREBAColors(jointData);
             }
             handler.Close();
