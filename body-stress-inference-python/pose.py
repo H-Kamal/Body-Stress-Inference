@@ -47,6 +47,7 @@ def determining_joints():
                 left_ear = [landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].x, landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].y]
 
                 left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
+                right_ankle = [landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].y]
                 left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
 
                 left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
@@ -60,7 +61,6 @@ def determining_joints():
                 leg_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
                 trunk_angle = cu.calc_cosine_law(left_hip, nose, left_ankle)
                 
-                
                 # TODO: Add lines 52 to 75 to a function - should return body parts
                 if len(angleArr) < SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
                     angleArr.append(left_arm_angle)
@@ -72,6 +72,7 @@ def determining_joints():
                     rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(right_lower_arm_angle)
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
                     rebaTrunk = rebaAnalysis.calcTrunkREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], trunk_angle)
+                    rebaTest = rebaAnalysis.calcRaisedLegREBA(left_ankle[1], right_ankle[1])
                     reba_value = rebaTrunk
                     angleArr = []
                     
