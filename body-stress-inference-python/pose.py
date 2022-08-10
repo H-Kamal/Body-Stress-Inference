@@ -11,7 +11,7 @@ cap = cv2.VideoCapture(0)
 def determining_joints():    
     PORT  = 1755    
     reba_value = 0
-    SAMPLE_SIZE = 4
+    SAMPLE_SIZE = 5
     sampleCount = 0
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
@@ -65,13 +65,13 @@ def determining_joints():
                 sampleCount += 1
                 # TODO: Add lines 52 to 75 to a function - should return body parts
                 if sampleCount >= SAMPLE_SIZE: # take a sample every 5 iterations of the loop
+                    print(sampleCount)
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_arm_angle) # do REBA analysis taken on angle
                     rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
                     rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)
                     rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(right_lower_arm_angle)
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
                     rebaTrunk = rebaAnalysis.calcTrunkREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], trunk_angle)
-                    reba_value = rebaTrunk
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
                     reba_value = rebaNeck
                     
