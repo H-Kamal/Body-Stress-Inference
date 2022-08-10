@@ -59,7 +59,7 @@ def determining_joints():
                 right_lower_arm_angle = cu.calc_cosine_law(right_elbow, right_shoulder, right_wrist)
                 leg_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
                 trunk_angle = cu.calc_cosine_law(left_hip, nose, left_ankle)
-                
+                neck_angle = cu.calc_cosine_law(left_shoulder, nose, left_ear)
                 
                 # TODO: Add lines 52 to 75 to a function - should return body parts
                 if len(angleArr) < SAMPLE_SIZE: # take n samples and calculate average angle based off measurements
@@ -72,7 +72,8 @@ def determining_joints():
                     rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(right_lower_arm_angle)
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
                     rebaTrunk = rebaAnalysis.calcTrunkREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], trunk_angle)
-                    reba_value = rebaTrunk
+                    rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
+                    reba_value = rebaNeck
                     angleArr = []
                     
                     body_parts = {
@@ -89,7 +90,8 @@ def determining_joints():
                         "rebaLowerLeftArm": rebaLowerLeftArm,
                         "rebaLowerRightArm": rebaLowerRightArm,
                         "rebaLegAdj": rebaLegAdj,
-                        "rebaTrunkAdj": rebaTrunk
+                        "rebaTrunk": rebaTrunk,
+                        "rebaNeck": rebaNeck
                     }      
                     
                     socket = server.connectSocket(PORT)
