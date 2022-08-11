@@ -79,16 +79,10 @@ def determining_joints():
                     sampleCount = 0
                     
                     body_parts = {
-                        "leftShoulder": left_shoulder,
-                        "leftElbow" : left_elbow,
-                        "leftHip": left_hip,
                         "leftArmAngle" : left_arm_angle,
-                        "leftLowerArmAngle": left_lower_arm_angle,
-                        "leftRightArmAngle": right_lower_arm_angle,
-                        "rightShoulder": right_shoulder,
-                        "rightElbow" : right_elbow,
-                        "rightHip": right_hip,
                         "rightArmAngle" : right_arm_angle,
+                        "leftLowerArmAngle": left_lower_arm_angle,
+                        "rightLowerArmAngle": right_lower_arm_angle,
                         "rebaUpperLeftArm": rebaLeftArm,
                         "rebaUpperRightArm": rebaRightArm,
                         "rebaLowerLeftArm": rebaLowerLeftArm,
