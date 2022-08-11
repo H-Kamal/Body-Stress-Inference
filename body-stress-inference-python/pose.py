@@ -87,6 +87,7 @@ def determining_joints():
                         "rightLowerArmAngle": right_lower_arm_angle,
                         "leftUpperLegAngle": left_upper_leg_angle,
                         "rightUpperLegAngle": right_upper_leg_angle,
+                        "trunkAngle": trunk_angle,
                         "rebaUpperLeftArm": rebaLeftArm,
                         "rebaUpperRightArm": rebaRightArm,
                         "rebaLowerLeftArm": rebaLowerLeftArm,
