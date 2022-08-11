@@ -13,4 +13,4 @@ Project interfacing webcam with image recognition and graphic output for ENSC 48
 1. Open unity and the project labelled: body-stress-inference
 2. Press run in unity to start the "game"
 3. In terminal/CMD navigate to the cloned repo
-4. Once in the cloned repo in the root folder run the following command: `poetry run python body-stress-inference-python/main.py`
+4. Once in the folder ~/Body-Stress-Inference run the following command: `poetry run python body-stress-inference-python/main.py`
