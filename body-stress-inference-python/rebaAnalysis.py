@@ -44,7 +44,7 @@ def calcTrunkREBA(nose_to_ear_x, elbow_to_hip_x, angle):
 		angle = abs(angle + 180) # subtract angle so that we get it from the perspective of the hip
 	else:
 		angle = abs(angle - 180) # subtract angle so that we get it from the perspective of the hip
-	# print("reba trunk angle: ", angle)
+	print("reba trunk angle: ", angle)
 	if -20 <= angle <= -10:
 		return 2
 	elif -10 < angle <= 0:
