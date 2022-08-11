@@ -83,6 +83,8 @@ def determining_joints():
                         "leftElbow" : left_elbow,
                         "leftHip": left_hip,
                         "leftArmAngle" : left_arm_angle,
+                        "leftLowerArmAngle": left_lower_arm_angle,
+                        "leftRightArmAngle": right_lower_arm_angle,
                         "rightShoulder": right_shoulder,
                         "rightElbow" : right_elbow,
                         "rightHip": right_hip,
