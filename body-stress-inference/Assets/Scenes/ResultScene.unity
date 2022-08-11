@@ -233,7 +233,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1775500558083943863, guid: 4cfed6851f4bd2e4b805eda55002db9c, type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1775500558083943863, guid: 4cfed6851f4bd2e4b805eda55002db9c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -277,6 +277,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4cfed6851f4bd2e4b805eda55002db9c, type: 3}
+--- !u!1 &300712624 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1434406330309392141, guid: 4cfed6851f4bd2e4b805eda55002db9c, type: 3}
+  m_PrefabInstance: {fileID: 300712623}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &300712625
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300712624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9064e5494a538e44b91bad636ac45bec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &300712626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 300712624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f05c728c544f824eb964a1acd290e46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &511914478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -603,7 +632,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &1110204919
 PrefabInstance:
@@ -715,7 +744,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8833430387287193491, guid: 0b635e65a91220540ae01b6b3162e6d2, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8833430387287193491, guid: 0b635e65a91220540ae01b6b3162e6d2, type: 3}
       propertyPath: m_LocalPosition.x
