@@ -50,6 +50,7 @@ def determining_joints():
                 left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
                 right_ankle = [landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].y]
                 left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
+                right_knee = [landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].y]
 
                 left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
                 right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
@@ -60,6 +61,7 @@ def determining_joints():
                 left_lower_arm_angle = cu.calc_cosine_law(left_shoulder, left_wrist, left_elbow)
                 right_lower_arm_angle = cu.calc_cosine_law(right_elbow, right_shoulder, right_wrist)
                 left_upper_leg_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
+                right_upper_leg_angle = cu.calc_cosine_law(right_hip, right_knee, right_ankle)
                 trunk_angle = cu.calc_cosine_law(left_hip, nose, left_ankle)
                 neck_angle = cu.calc_cosine_law(left_shoulder, nose, left_ear)
                 
@@ -84,6 +86,7 @@ def determining_joints():
                         "leftLowerArmAngle": left_lower_arm_angle,
                         "rightLowerArmAngle": right_lower_arm_angle,
                         "leftUpperLegAngle": left_upper_leg_angle,
+                        "rightUpperLegAngle": right_upper_leg_angle,
                         "rebaUpperLeftArm": rebaLeftArm,
                         "rebaUpperRightArm": rebaRightArm,
                         "rebaLowerLeftArm": rebaLowerLeftArm,
