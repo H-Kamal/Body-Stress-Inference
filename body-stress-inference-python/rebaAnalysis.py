@@ -65,7 +65,6 @@ def calcNeckREBA(nose_to_ear_x, nose_to_shoulder_x, angle):
     # calculation for backwards movement
 	if (nose_to_ear_x * nose_to_shoulder_x) < 0: # facing away from origin.
 		angle = -angle # flip angle as facing away has you lifting arms up as negative
-	print("reba neck angle: ", angle)
 	if 0 < angle <= 20:
 		return 1
 	elif angle > 20:
