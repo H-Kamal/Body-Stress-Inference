@@ -9,14 +9,10 @@ public class JointData
         REBAScoreDic = new Dictionary<string, double>();
     }
 
-    public double[] leftShoulder { get; set; }
-    public double[] leftElbow { get; set; }
-    public double[] leftHip { get; set; }
     public double leftArmAngle { get; set; }
-    public double[] rightShoulder { get; set; }
-    public double[] rightElbow { get; set; }
-    public double[] rightHip { get; set; }
+    public double leftLowerArmAngle { get; set; }
     public double rightArmAngle { get; set; }
+    public double rightLowerArmAngle { get; set; }
     public double rebaUpperLeftArm { get; set; }
     public double rebaUpperRightArm { get; set; }
     public double rebaLowerLeftArm { get; set; }

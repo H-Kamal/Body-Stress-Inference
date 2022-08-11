@@ -29,8 +29,10 @@ public class RigControl : MonoBehaviour
           = Quaternion.AngleAxis(bodyRotation.z, new Vector3(0, 0, 1))
           * Quaternion.AngleAxis(bodyRotation.x, new Vector3(1, 0, 0))
           * Quaternion.AngleAxis(90, new Vector3(0, 1, 0));
-        
+
+        // Lowers the arms from the T-Pose to the model's side 
         leftUpperArm.set(-90.0f, 1, 0, 0);
+        rightUpperArm.set(-90.0f, 1, 0, 0);
 
     }
     void Update()
@@ -39,6 +41,7 @@ public class RigControl : MonoBehaviour
         {
             Debug.Log((float)(RotationData.rotationDic["leftArmAngle"]));
             leftUpperArm.offset((float)(RotationData.rotationDic["leftArmAngle"]), 0, 1, 0);
+            rightUpperArm.offset((float)(RotationData.rotationDic["rightArmAngle"]), 0, 1, 0);
         }
 
         // double t = Math.Sin(Time.time * Math.PI); // [-1, 1]
