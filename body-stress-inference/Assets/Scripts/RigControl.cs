@@ -11,6 +11,7 @@ public class RigControl : MonoBehaviour
     RigBone leftUpperArm;
     RigBone leftLowerArm;
     RigBone rightUpperArm;
+    RigBone rightLowerArm;
     RigBone rightUpperLeg;
     RigBone rightLowerLeg;
     RigBone leftUpperLeg;
@@ -20,6 +21,7 @@ public class RigControl : MonoBehaviour
         leftUpperArm = new RigBone(humanoid, HumanBodyBones.LeftUpperArm);
         leftLowerArm = new RigBone(humanoid, HumanBodyBones.LeftLowerArm);
         rightUpperArm = new RigBone(humanoid, HumanBodyBones.RightUpperArm);
+        rightLowerArm = new RigBone(humanoid, HumanBodyBones.RightLowerArm);
         rightUpperLeg = new RigBone(humanoid, HumanBodyBones.RightUpperLeg);
         rightLowerLeg = new RigBone(humanoid, HumanBodyBones.RightLowerLeg);
         leftUpperLeg = new RigBone(humanoid, HumanBodyBones.LeftUpperLeg);
@@ -39,9 +41,13 @@ public class RigControl : MonoBehaviour
     {
         if (RotationData.rotationDic.Count > 0)
         {
-            Debug.Log((float)(RotationData.rotationDic["leftArmAngle"]));
             leftUpperArm.offset((float)(RotationData.rotationDic["leftArmAngle"]), 0, 1, 0);
-            rightUpperArm.offset((float)(RotationData.rotationDic["rightArmAngle"]), 0, 1, 0);
+            // Right arm works opposite to the left arm
+            rightUpperArm.offset(-(float)(RotationData.rotationDic["rightArmAngle"]), 0, 1, 0);
+
+            Debug.Log((float)(RotationData.rotationDic["leftLowerArmAngle"]));
+            leftLowerArm.offset((float)(RotationData.rotationDic["leftLowerArmAngle"]), 0, 0, 1);
+            rightLowerArm.offset((float)(RotationData.rotationDic["rightLowerArmAngle"] + 180), 0, 0, 1);
         }
 
         // double t = Math.Sin(Time.time * Math.PI); // [-1, 1]
