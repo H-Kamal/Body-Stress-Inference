@@ -59,7 +59,7 @@ def determining_joints():
                 right_arm_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
                 left_lower_arm_angle = cu.calc_cosine_law(left_shoulder, left_wrist, left_elbow)
                 right_lower_arm_angle = cu.calc_cosine_law(right_elbow, right_shoulder, right_wrist)
-                leg_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
+                left_upper_leg_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
                 trunk_angle = cu.calc_cosine_law(left_hip, nose, left_ankle)
                 neck_angle = cu.calc_cosine_law(left_shoulder, nose, left_ear)
                 
@@ -70,7 +70,7 @@ def determining_joints():
                     rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
                     rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)
                     rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(right_lower_arm_angle)
-                    rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
+                    rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(left_upper_leg_angle)
                     rebaTrunk = rebaAnalysis.calcTrunkREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], trunk_angle)
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
                     
@@ -83,6 +83,7 @@ def determining_joints():
                         "rightArmAngle" : right_arm_angle,
                         "leftLowerArmAngle": left_lower_arm_angle,
                         "rightLowerArmAngle": right_lower_arm_angle,
+                        "leftUpperLegAngle": left_upper_leg_angle,
                         "rebaUpperLeftArm": rebaLeftArm,
                         "rebaUpperRightArm": rebaRightArm,
                         "rebaLowerLeftArm": rebaLowerLeftArm,
