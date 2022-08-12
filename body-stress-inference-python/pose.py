@@ -11,7 +11,7 @@ cap = cv2.VideoCapture(0)
 def determining_joints():    
     PORT  = 1755    
     reba_value = 0
-    SAMPLE_SIZE = 5
+    SAMPLE_SIZE = 2
     REBA_PARTS_TOTAL = 7
     sampleCount = 0
 
@@ -86,7 +86,7 @@ def determining_joints():
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
                     
                     rebaAverage = (rebaLeftArm + rebaRightArm + rebaLowerLeftArm + rebaLowerRightArm + rebaLegAdj + rebaTrunk + rebaNeck) / REBA_PARTS_TOTAL
-                    reba_value = rebaTrunk
+                    # reba_value = rebaTrunk
                     sampleCount = 0
                     
                     body_parts = {
@@ -121,7 +121,7 @@ def determining_joints():
             
             #TODO: update the following line so that it works with any angle from without an intermediary variable (not a core issue)
             # Render Reba angle
-            cv2.putText(image, 'REBA Score:' + str(reba_value), (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
+            # cv2.putText(image, 'REBA Score:' + str(reba_value), (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
                         
             # Render detections
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
