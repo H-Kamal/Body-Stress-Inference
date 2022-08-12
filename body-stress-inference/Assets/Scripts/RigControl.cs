@@ -17,6 +17,7 @@ public class RigControl : MonoBehaviour
     RigBone leftUpperLeg;
     RigBone leftLowerLeg;
     RigBone trunk;
+    RigBone neck;
     void Start()
     {
         leftUpperArm = new RigBone(humanoid, HumanBodyBones.LeftUpperArm);
@@ -28,6 +29,7 @@ public class RigControl : MonoBehaviour
         leftUpperLeg = new RigBone(humanoid, HumanBodyBones.LeftUpperLeg);
         leftLowerLeg = new RigBone(humanoid, HumanBodyBones.LeftLowerLeg);
         trunk = new RigBone(humanoid, HumanBodyBones.Spine);
+        neck = new RigBone(humanoid, HumanBodyBones.Neck);
 
         humanoid.transform.rotation
           = Quaternion.AngleAxis(bodyRotation.z, new Vector3(0, 0, 1))
@@ -55,23 +57,10 @@ public class RigControl : MonoBehaviour
             leftUpperLeg.offset((float)(RotationData.rotationDic["leftUpperLegAngle"] + 180), 1, 0, 0);
             rightUpperLeg.offset((float)(RotationData.rotationDic["rightUpperLegAngle"] - 180), 1, 0, 0);
 
-            Debug.Log((float)(RotationData.rotationDic["leftLowerLegAngle"]));
-            Debug.Log((float)(RotationData.rotationDic["rightLowerLegAngle"]));
-
             leftLowerLeg.offset((float)(RotationData.rotationDic["leftLowerLegAngle"]), 1, 0, 0);
             rightLowerLeg.offset((float)(RotationData.rotationDic["rightLowerLegAngle"]), 1, 0, 0);
 
+            neck.offset((float)(RotationData.rotationDic["neckAngle"]*2), 1, 0, 0);
         }
-
-        // double t = Math.Sin(Time.time * Math.PI); // [-1, 1]
-        // double s = (t + 1) / 2;                       // [0, 1]
-        // double u = 1 - s / 2;                         // [0.5, 1]
-        // // Rotates along the axis chosen in the last 3 parameters
-        // leftUpperArm.set((float)(80 * t), 1, 0, 0);
-        // leftLowerArm.set((float)(90 * s), 1, 0, 0);
-        // rightUpperArm.set((float)(90 * t), 0, 0, 1);
-        // rightUpperLeg.set((float)(180 * u), 1, 0, 0);
-        // rightLowerLeg.set((float)(90 * s), 1, 0, 0);
-        // Rotates the whole model at once. Currently set to 0 rotation along any axis
     }
 }

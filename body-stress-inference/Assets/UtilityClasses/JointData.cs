@@ -18,6 +18,7 @@ public class JointData
     public double leftLowerLegAngle { get; set; }
     public double rightLowerLegAngle { get; set; }
     public double trunkAngle { get; set; }
+    public double neckAngle { get; set; }
     public double rebaUpperLeftArm { get; set; }
     public double rebaUpperRightArm { get; set; }
     public double rebaLowerLeftArm { get; set; }

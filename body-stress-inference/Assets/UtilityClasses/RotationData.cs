@@ -23,5 +23,6 @@ public static class RotationData
         rotationDic["leftLowerLegAngle"] = jointData.leftLowerLegAngle;
         rotationDic["rightLowerLegAngle"] = jointData.rightLowerLegAngle;
         rotationDic["trunkAngle"] = jointData.trunkAngle;
+        rotationDic["neckAngle"] = jointData.neckAngle;
     }
 }
