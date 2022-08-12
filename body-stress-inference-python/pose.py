@@ -12,6 +12,7 @@ def determining_joints():
     PORT  = 1755    
     reba_value = 0
     SAMPLE_SIZE = 5
+    REBA_PARTS_TOTAL = 7
     sampleCount = 0
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
@@ -72,8 +73,9 @@ def determining_joints():
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
                     rebaTrunk = rebaAnalysis.calcTrunkREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], trunk_angle)
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
-                    reba_value = rebaNeck
                     
+                    rebaAverage = (rebaLeftArm + rebaRightArm + rebaLowerLeftArm + rebaLowerRightArm + rebaLegAdj + rebaTrunk + rebaNeck) / REBA_PARTS_TOTAL
+                    reba_value = rebaNeck
                     sampleCount = 0
                     
                     body_parts = {
@@ -91,7 +93,8 @@ def determining_joints():
                         "rebaLowerRightArm": rebaLowerRightArm,
                         "rebaLegAdj": rebaLegAdj,
                         "rebaTrunk": rebaTrunk,
-                        "rebaNeck": rebaNeck
+                        "rebaNeck": rebaNeck, 
+                        "rebaAverage": rebaAverage
                     }      
                     
                     socket = server.connectSocket(PORT)
