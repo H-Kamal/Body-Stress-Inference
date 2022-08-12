@@ -8,3 +8,9 @@ Project interfacing webcam with image recognition and graphic output for ENSC 48
    1. If you don't have Poetry installed, install it through following these instructions: [Install Poetry](https://python-poetry.org/docs/#installation)
    2. If you have Poetry installed, run `poetry install` in the repository's root.
 3. To run a python script, use the command `poetry run python your_script.py`
+
+# Run Instructions:
+1. Open unity and import the project labeled: body-stress-inference
+2. Press run in unity to start the "game"
+3. In terminal/CMD navigate to the cloned repo
+4. Once in the folder /Body-Stress-Inference run the following command: `poetry run python body-stress-inference-python/main.py`

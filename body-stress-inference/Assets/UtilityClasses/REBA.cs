@@ -10,6 +10,7 @@ public static class REBA
     private static Color mediumRiskColor;
     private static Color highRiskColor;
 
+    public static double averageREBAScore;
     private const int LOW = 0;
     private const int MEDIUM = 2;
     private const int HIGH = 4;
