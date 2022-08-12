@@ -48,8 +48,15 @@ def determining_joints():
                 left_ear = [landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].x, landmarks[mp_pose.PoseLandmark.LEFT_EAR.value].y]
 
                 left_ankle = [landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_ANKLE.value].y]
+
+                # Need a landmark of where the person is standing for the trunk angle calculation
+                left_hip_bottom = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x, 1]
+                left_hip_top = [landmarks[mp_pose.PoseLandmark.LEFT_HIP.value].x, 0]
+                right_hip_top = [landmarks[mp_pose.PoseLandmark.RIGHT_HIP.value].x, 0]
+
                 right_ankle = [landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_ANKLE.value].y]
                 left_knee = [landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.LEFT_KNEE.value].y]
+                right_knee = [landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_KNEE.value].y]
 
                 left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
                 right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
@@ -59,8 +66,12 @@ def determining_joints():
                 right_arm_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
                 left_lower_arm_angle = cu.calc_cosine_law(left_shoulder, left_wrist, left_elbow)
                 right_lower_arm_angle = cu.calc_cosine_law(right_elbow, right_shoulder, right_wrist)
-                leg_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
-                trunk_angle = cu.calc_cosine_law(left_hip, nose, left_ankle)
+                left_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
+                left_upper_leg_angle = cu.calc_cosine_law(left_hip, left_knee, left_hip_top)
+                right_upper_leg_angle = cu.calc_cosine_law(right_hip, right_knee, right_hip_top)
+                left_lower_leg_angle = abs(cu.calc_cosine_law(left_knee, left_hip, left_ankle) - 180)
+                right_lower_leg_angle = abs(cu.calc_cosine_law(right_knee, right_hip, right_ankle) - 180)
+                trunk_angle = abs(cu.calc_cosine_law(left_hip, nose, left_hip_bottom) - 180) # subtract 180 to get from other side.
                 neck_angle = cu.calc_cosine_law(left_shoulder, nose, left_ear)
                 
                 sampleCount += 1
@@ -70,23 +81,25 @@ def determining_joints():
                     rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
                     rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)
                     rebaLowerRightArm = rebaAnalysis.calcLowerArmPosREBA(right_lower_arm_angle)
-                    rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(leg_adj_angle)
+                    rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(left_adj_angle)
                     rebaTrunk = rebaAnalysis.calcTrunkREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], trunk_angle)
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
                     
                     rebaAverage = (rebaLeftArm + rebaRightArm + rebaLowerLeftArm + rebaLowerRightArm + rebaLegAdj + rebaTrunk + rebaNeck) / REBA_PARTS_TOTAL
-                    reba_value = rebaNeck
+                    reba_value = rebaTrunk
                     sampleCount = 0
                     
                     body_parts = {
-                        "leftShoulder": left_shoulder,
-                        "leftElbow" : left_elbow,
-                        "leftHip": left_hip,
-                        "leftBodyAngle" : left_arm_angle,
-                        "rightShoulder": right_shoulder,
-                        "rightElbow" : right_elbow,
-                        "rightHip": right_hip,
-                        "rightBodyAngle" : right_arm_angle,
+                        "leftArmAngle" : left_arm_angle,
+                        "rightArmAngle" : right_arm_angle,
+                        "leftLowerArmAngle": left_lower_arm_angle,
+                        "rightLowerArmAngle": right_lower_arm_angle,
+                        "leftUpperLegAngle": left_upper_leg_angle,
+                        "rightUpperLegAngle": right_upper_leg_angle,
+                        "leftLowerLegAngle": left_lower_leg_angle,
+                        "rightLowerLegAngle": right_lower_leg_angle,
+                        "trunkAngle": trunk_angle,
+                        "neckAngle": neck_angle,
                         "rebaUpperLeftArm": rebaLeftArm,
                         "rebaUpperRightArm": rebaRightArm,
                         "rebaLowerLeftArm": rebaLowerLeftArm,
