@@ -69,8 +69,8 @@ def determining_joints():
                 left_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
                 left_upper_leg_angle = cu.calc_cosine_law(left_hip, left_knee, left_hip_top)
                 right_upper_leg_angle = cu.calc_cosine_law(right_hip, right_knee, right_hip_top)
-                left_lower_leg_angle = cu.calc_cosine_law(left_knee, left_hip, left_ankle)
-                right_lower_leg_angle = cu.calc_cosine_law(right_knee, right_hip, right_ankle)
+                left_lower_leg_angle = abs(cu.calc_cosine_law(left_knee, left_hip, left_ankle) - 180)
+                right_lower_leg_angle = abs(cu.calc_cosine_law(right_knee, right_hip, right_ankle) - 180)
                 trunk_angle = abs(cu.calc_cosine_law(left_hip, nose, left_hip_bottom) - 180) # subtract 180 to get from other side.
                 neck_angle = cu.calc_cosine_law(left_shoulder, nose, left_ear)
                 
