@@ -18,6 +18,10 @@ public static class RotationData
         rotationDic["rightArmAngle"] = jointData.rightArmAngle;
         rotationDic["leftLowerArmAngle"] = jointData.leftLowerArmAngle;
         rotationDic["rightLowerArmAngle"] = jointData.rightLowerArmAngle;
-
+        rotationDic["leftUpperLegAngle"] = jointData.leftUpperLegAngle;
+        rotationDic["rightUpperLegAngle"] = jointData.rightUpperLegAngle;
+        rotationDic["leftLowerLegAngle"] = jointData.leftLowerLegAngle;
+        rotationDic["rightLowerLegAngle"] = jointData.rightLowerLegAngle;
+        rotationDic["trunkAngle"] = jointData.trunkAngle;
     }
 }

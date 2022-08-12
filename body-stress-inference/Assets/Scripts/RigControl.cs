@@ -16,6 +16,7 @@ public class RigControl : MonoBehaviour
     RigBone rightLowerLeg;
     RigBone leftUpperLeg;
     RigBone leftLowerLeg;
+    RigBone trunk;
     void Start()
     {
         leftUpperArm = new RigBone(humanoid, HumanBodyBones.LeftUpperArm);
@@ -26,6 +27,7 @@ public class RigControl : MonoBehaviour
         rightLowerLeg = new RigBone(humanoid, HumanBodyBones.RightLowerLeg);
         leftUpperLeg = new RigBone(humanoid, HumanBodyBones.LeftUpperLeg);
         leftLowerLeg = new RigBone(humanoid, HumanBodyBones.LeftLowerLeg);
+        trunk = new RigBone(humanoid, HumanBodyBones.Spine);
 
         humanoid.transform.rotation
           = Quaternion.AngleAxis(bodyRotation.z, new Vector3(0, 0, 1))
@@ -45,9 +47,20 @@ public class RigControl : MonoBehaviour
             // Right arm works opposite to the left arm
             rightUpperArm.offset(-(float)(RotationData.rotationDic["rightArmAngle"]), 0, 1, 0);
 
-            Debug.Log((float)(RotationData.rotationDic["leftLowerArmAngle"]));
             leftLowerArm.offset((float)(RotationData.rotationDic["leftLowerArmAngle"]), 0, 0, 1);
             rightLowerArm.offset((float)(RotationData.rotationDic["rightLowerArmAngle"] + 180), 0, 0, 1);
+
+            trunk.offset((float)(RotationData.rotationDic["trunkAngle"]), 1, 0, 0);
+
+            leftUpperLeg.offset((float)(RotationData.rotationDic["leftUpperLegAngle"] + 180), 1, 0, 0);
+            rightUpperLeg.offset((float)(RotationData.rotationDic["rightUpperLegAngle"] - 180), 1, 0, 0);
+
+            // Debug.Log((float)(RotationData.rotationDic["leftLowerLegAngle"]));
+            // Debug.Log((float)(RotationData.rotationDic["rightLowerLegAngle"]));
+
+            // leftLowerLeg.offset((float)(RotationData.rotationDic["leftLowerLegAngle"] + 180), 1, 0, 0);
+            // rightLowerLeg.offset((float)(RotationData.rotationDic["rightLowerLegAngle"] - 180), 1, 0, 0);
+
         }
 
         // double t = Math.Sin(Time.time * Math.PI); // [-1, 1]
