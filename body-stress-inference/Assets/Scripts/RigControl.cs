@@ -55,11 +55,11 @@ public class RigControl : MonoBehaviour
             leftUpperLeg.offset((float)(RotationData.rotationDic["leftUpperLegAngle"] + 180), 1, 0, 0);
             rightUpperLeg.offset((float)(RotationData.rotationDic["rightUpperLegAngle"] - 180), 1, 0, 0);
 
-            // Debug.Log((float)(RotationData.rotationDic["leftLowerLegAngle"]));
-            // Debug.Log((float)(RotationData.rotationDic["rightLowerLegAngle"]));
+            Debug.Log((float)(RotationData.rotationDic["leftLowerLegAngle"]));
+            Debug.Log((float)(RotationData.rotationDic["rightLowerLegAngle"]));
 
-            // leftLowerLeg.offset((float)(RotationData.rotationDic["leftLowerLegAngle"] + 180), 1, 0, 0);
-            // rightLowerLeg.offset((float)(RotationData.rotationDic["rightLowerLegAngle"] - 180), 1, 0, 0);
+            leftLowerLeg.offset((float)(RotationData.rotationDic["leftLowerLegAngle"]), 1, 0, 0);
+            rightLowerLeg.offset((float)(RotationData.rotationDic["rightLowerLegAngle"]), 1, 0, 0);
 
         }
 
