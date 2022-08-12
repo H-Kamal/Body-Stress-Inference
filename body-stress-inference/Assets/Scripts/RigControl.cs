@@ -60,7 +60,7 @@ public class RigControl : MonoBehaviour
             leftLowerLeg.offset((float)(RotationData.rotationDic["leftLowerLegAngle"]), 1, 0, 0);
             rightLowerLeg.offset((float)(RotationData.rotationDic["rightLowerLegAngle"]), 1, 0, 0);
 
-            neck.offset((float)(RotationData.rotationDic["neckAngle"]*2), 1, 0, 0);
+            neck.offset((float)(RotationData.rotationDic["neckAngle"]*1.5), 1, 0, 0);
         }
     }
 }
