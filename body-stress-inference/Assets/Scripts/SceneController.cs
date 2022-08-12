@@ -5,10 +5,12 @@ using UnityEngine.SceneManagement;
 
 public class SceneController : MonoBehaviour
 {
-    public void LoadResultScene(){
+    public void LoadResultScene()
+    {
         SceneManager.LoadScene("ResultScene");
     }
-    public void LoadStartScene(){
+    public void LoadStartScene()
+    {
         SceneManager.LoadScene("StartScene");
     }
 }
