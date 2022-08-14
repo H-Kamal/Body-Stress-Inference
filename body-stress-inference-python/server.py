@@ -2,8 +2,7 @@ import socket
 import json
 from time import sleep
 
-PORT = 1755
-
+# Connects to your own IP which is what the Unity server is set up to receive
 def connectSocket(PORT):
     hostname = socket.gethostname()
     IPAddr = socket.gethostbyname(hostname)
@@ -18,7 +17,8 @@ def sendJSONDataToUnity(s, dic):
     s.send(jsonResult.encode())
     s.close()
 
-# Alone will connect to a socket provided
-if __name__ == '__main__':   
+# Tests the server standalone. will connect to a socket provided
+if __name__ == '__main__':
+    PORT = 1755   
     s = connectSocket(PORT)
     sleep(1)

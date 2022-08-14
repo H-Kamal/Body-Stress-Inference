@@ -181,7 +181,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 63
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -227,6 +227,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4018663825711357118, guid: 0a53577e1c71411479361e980c88b8b7, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 7435525437440223580, guid: 0a53577e1c71411479361e980c88b8b7, type: 3}
       propertyPath: m_Name
       value: male-rigged-full-Unity-Ready
@@ -441,7 +445,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4463180967233977454, guid: c8f269a73c267a24d9a20e61ccc35c9b, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 40
+      value: 16.5
       objectReference: {fileID: 0}
     - target: {fileID: 4463180967233977454, guid: c8f269a73c267a24d9a20e61ccc35c9b, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -808,7 +812,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2642364221645976073, guid: c9ceb400aed0b9b4abeb5b83c4a0b32e, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 40
+      value: 16.499996
       objectReference: {fileID: 0}
     - target: {fileID: 2642364221645976073, guid: c9ceb400aed0b9b4abeb5b83c4a0b32e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x

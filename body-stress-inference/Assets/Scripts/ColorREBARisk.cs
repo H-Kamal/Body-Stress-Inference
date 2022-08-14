@@ -14,6 +14,8 @@ public class ColorREBARisk : MonoBehaviour
     private GameObject rightThigh;
     private GameObject head;
     private GameObject torso;
+    private GameObject leftWrist;
+    private GameObject rightWrist;
     private Renderer upperLeftArmRenderer;
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,8 @@ public class ColorREBARisk : MonoBehaviour
         rightThigh = GameObject.Find("RightThigh");
         head = GameObject.Find("Head");
         torso = GameObject.Find("Torso");
+        leftWrist = GameObject.Find("LeftWrist");
+        rightWrist = GameObject.Find("RightWrist");
         
         upperLeftArmRenderer = upperLeftArm.GetComponent<Renderer>();
     }
@@ -45,8 +49,11 @@ public class ColorREBARisk : MonoBehaviour
             rightThigh.GetComponent<Renderer>().material.color = REBA.REBAScoreColors["rebaLegAdj"];
             leftShin.GetComponent<Renderer>().material.color = REBA.REBAScoreColors["rebaLegAdj"];
             rightShin.GetComponent<Renderer>().material.color = REBA.REBAScoreColors["rebaLegAdj"];
-            torso.GetComponent<Renderer>().material.color = REBA.REBAScoreColors["rebaTrunkAdj"];            
+            torso.GetComponent<Renderer>().material.color = REBA.REBAScoreColors["rebaTrunk"];            
             head.GetComponent<Renderer>().material.color = REBA.REBAScoreColors["rebaNeck"];
+            leftWrist.GetComponent<Renderer>().material.color = REBA.REBAScoreColors["rebaLowerLeftArm"];
+            rightWrist.GetComponent<Renderer>().material.color = REBA.REBAScoreColors["rebaLowerRightArm"];
+
         }
     }
 }

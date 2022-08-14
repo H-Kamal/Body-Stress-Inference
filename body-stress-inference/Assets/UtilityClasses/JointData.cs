@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Class recieves the deserialized JSON object sent from the Python backend and stores it into a dictionary
 public class JointData
 {
     public JointData()
@@ -24,19 +25,20 @@ public class JointData
     public double rebaLowerLeftArm { get; set; }
     public double rebaLowerRightArm { get; set; }
     public double rebaLegAdj { get; set; }
-    public double rebaTrunkAdj { get; set; }
+    public double rebaTrunk { get; set; }
     public double rebaNeck { get; set; }
     public double rebaAverage { get; set; }
     public IDictionary<string, double> REBAScoreDic { get; set; }
 
+    // Updates a dictionary which associates body part strings to their REBA scores as received from Python
     public void updateREBAScoresDic()
     {
         REBAScoreDic["rebaUpperLeftArm"] = rebaUpperLeftArm;
-        REBAScoreDic["rebaUpperRightArm"] = rebaUpperLeftArm;
+        REBAScoreDic["rebaUpperRightArm"] = rebaUpperRightArm;
         REBAScoreDic["rebaLowerLeftArm"] = rebaLowerLeftArm;
         REBAScoreDic["rebaLowerRightArm"] = rebaLowerRightArm;
         REBAScoreDic["rebaLegAdj"] = rebaLegAdj;
-        REBAScoreDic["rebaTrunkAdj"] = rebaTrunkAdj;
+        REBAScoreDic["rebaTrunk"] = rebaTrunk;
         REBAScoreDic["rebaNeck"] = rebaNeck;
         REBAScoreDic["rebaAverage"] = rebaAverage;
     }

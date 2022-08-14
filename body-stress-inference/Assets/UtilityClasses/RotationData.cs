@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+// Class stores the rotation data as received from the Python backend
 public static class RotationData
 {
     static RotationData()
@@ -12,6 +12,7 @@ public static class RotationData
 
     public static IDictionary<string, double> rotationDic { get; set; }
 
+    // Updates a rotation dictionary using JointData
     public static void updateHumanRotationDic(JointData jointData)
     {
         rotationDic["leftArmAngle"] = jointData.leftArmAngle;

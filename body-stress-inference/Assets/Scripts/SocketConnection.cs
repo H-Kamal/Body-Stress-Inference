@@ -13,9 +13,7 @@ public class SocketConnection : MonoBehaviour
     static Socket listener;
     private CancellationTokenSource source;
     public ManualResetEvent allDone;
-    private Color matColor;
     public JointData jointData;
-
     public static readonly int PORT = 1755;
     public static readonly int WAITTIME = 1;
 
@@ -113,11 +111,15 @@ public class SocketConnection : MonoBehaviour
                 //All of the data has been read
                 string content = state.colorCode.ToString();
                 
-                print($"Read {content.Length} bytes from socket.\n Data : {content}");
+                // Deserializes the JSON object sent from pose.py and populates JointData class with it's content
                 jointData = JsonConvert.DeserializeObject<JointData>(content);
+                // Updates the REBA scores to be utilized in the future
                 jointData.updateREBAScoresDic();
+                // Using the jointData, converts the REBA scores into colors and stores in it's fields
                 REBA.setREBAColors(jointData);
+                // Keeps track of the overall REBA score of the whole model
                 REBA.averageREBAScore = jointData.rebaAverage;
+                // Updates the rotations of the rigged model to move it 
                 RotationData.updateHumanRotationDic(jointData);
             }
             handler.Close();
