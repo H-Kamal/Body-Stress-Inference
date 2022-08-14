@@ -2,7 +2,7 @@
 Project interfacing webcam with image recognition and graphic output for ENSC 482. Contributors are Hamza Kamal, Kirill Melnikov, and Roy Ataya.
 
 
-# Installing Dependancies Instructions:
+# Installing Dependencies Instructions:
 ## Using Poetry
 1. Clone this repository
 2. Navigate to the repository
