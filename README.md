@@ -9,7 +9,10 @@ Project interfacing webcam with image recognition and graphic output for ENSC 48
    2. If you have Poetry installed, run `poetry install` in the repository's root.
 3. To run a python script, use the command `poetry run python your_script.py`
 4. In terminal/CMD navigate to the cloned repo
-5. Run the following command: `pip install -r requirements.txt` to install all the required python packages for the project
+5. Run the following commands to install all the required python packages for the project:
+   1. `pip install opencv-python==4.6.0.66`
+   2. `pip install mediapipe==0.8.10.1`
+   3. `pip install numpy==1.23.0`
 
 # Run Instructions:
 1. Open unity and import the project labelled: body-stress-inference
