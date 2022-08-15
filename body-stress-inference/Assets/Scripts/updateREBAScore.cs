@@ -10,9 +10,9 @@ public class updateREBAScore : MonoBehaviour
     [SerializeField] private TextMeshProUGUI inputField;
     public void Update()
     {
-        if(REBA.averageREBAScore != null)
+        if(REBA.REBATotal != 0.0d)
         {
-            inputField.text = Math.Ceiling(REBA.averageREBAScore).ToString();
+            inputField.text = Math.Ceiling(REBA.REBATotal).ToString();
         }
     }
 }

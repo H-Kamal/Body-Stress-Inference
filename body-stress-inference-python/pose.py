@@ -10,14 +10,19 @@ cap = cv2.VideoCapture(0)
 
 def determining_joints():    
     PORT  = 1755    
-    reba_value = 0
-    SAMPLE_SIZE = 5
-    REBA_PARTS_TOTAL = 7
+    SAMPLE_SIZE = 2 # Rate at which we send a JSON object of REBA scores and angles
     sampleCount = 0
+    avgRebaLeftArm = 0
+    avgRebaRightArm = 0
+    avgRebaLowerLeftArm = 0
+    avgRebaLowerRightArm = 0
+    avgRebaLegAdj = 0
+    avgRebaTrunk = 0
+    avgRebaNeck = 0
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         while cap.isOpened():
-            ret, frame = cap.read()
+            _, frame = cap.read()
             
             # Recolor image to RGB
             image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -33,7 +38,8 @@ def determining_joints():
             # Extract landmarks
             try:
                 landmarks = results.pose_landmarks.landmark
-                # Get coordinates
+
+                # Get coordinates for specific body parts
                 left_shoulder = [landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.LEFT_SHOULDER.value].y]
                 right_shoulder = [landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].x,landmarks[mp_pose.PoseLandmark.RIGHT_SHOULDER.value].y]
 
@@ -61,7 +67,7 @@ def determining_joints():
                 left_wrist = [landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.LEFT_WRIST.value].y]
                 right_wrist = [landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].x, landmarks[mp_pose.PoseLandmark.RIGHT_WRIST.value].y]
            
-                # Calculate angle
+                # Calculate angles for REBA analysis
                 left_arm_angle = cu.calc_cosine_law(left_shoulder, left_elbow, left_hip)
                 right_arm_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
                 left_lower_arm_angle = cu.calc_cosine_law(left_shoulder, left_wrist, left_elbow)
@@ -75,8 +81,7 @@ def determining_joints():
                 neck_angle = cu.calc_cosine_law(left_shoulder, nose, left_ear)
                 
                 sampleCount += 1
-                # TODO: Add lines 52 to 75 to a function - should return body parts
-                if sampleCount >= SAMPLE_SIZE: # take a sample every 5 iterations of the loop
+                if sampleCount >= SAMPLE_SIZE: # take a sample every 2 iterations of the loop
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_arm_angle) # do REBA analysis taken on angle
                     rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
                     rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)
@@ -84,11 +89,21 @@ def determining_joints():
                     rebaLegAdj = rebaAnalysis.calcLegAdjustmentsREBA(left_adj_angle)
                     rebaTrunk = rebaAnalysis.calcTrunkREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], trunk_angle)
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
+
+                    # average the REBA score for each body part to get a running count of the total, average REBA score.
+                    avgRebaLeftArm = (rebaLeftArm + avgRebaLeftArm) / 2
+                    avgRebaRightArm = (rebaRightArm + avgRebaRightArm) / 2
+                    avgRebaLowerLeftArm = (rebaLowerLeftArm + avgRebaLowerLeftArm) / 2
+                    avgRebaLowerRightArm = (rebaLowerRightArm + avgRebaLowerRightArm) / 2
+                    avgRebaLegAdj = (rebaLegAdj + avgRebaLegAdj) / 2
+                    avgRebaTrunk = (rebaTrunk + avgRebaTrunk) / 2
+                    avgRebaNeck = (rebaNeck + avgRebaNeck) / 2
                     
-                    rebaAverage = (rebaLeftArm + rebaRightArm + rebaLowerLeftArm + rebaLowerRightArm + rebaLegAdj + rebaTrunk + rebaNeck) / REBA_PARTS_TOTAL
-                    reba_value = rebaTrunk
+                    # Average out the REBA scores over the SAMPLE_SIZE before sending over to Unity 
+                    rebaTotal = (avgRebaLeftArm + avgRebaRightArm + avgRebaLowerLeftArm + avgRebaLowerRightArm + avgRebaLegAdj + avgRebaTrunk + avgRebaNeck)
                     sampleCount = 0
-                    
+
+                    # Data to be sent to Unity
                     body_parts = {
                         "leftArmAngle" : left_arm_angle,
                         "rightArmAngle" : right_arm_angle,
@@ -107,29 +122,32 @@ def determining_joints():
                         "rebaLegAdj": rebaLegAdj,
                         "rebaTrunk": rebaTrunk,
                         "rebaNeck": rebaNeck, 
-                        "rebaAverage": rebaAverage
+                        "rebaTotal": rebaTotal,
+                        "avgRebaLeftArm": avgRebaLeftArm,
+                        "avgRebaRightArm": avgRebaRightArm,
+                        "avgRebaLowerLeftArm": avgRebaLowerLeftArm,
+                        "avgRebaLowerRightArm": avgRebaLowerRightArm,
+                        "avgRebaLegAdj": avgRebaLegAdj,
+                        "avgRebaTrunk": avgRebaTrunk,
+                        "avgRebaNeck": avgRebaNeck
                     }      
                     
+                    # Connect to waiting Unity server and send it the JSON object with Reba and angle data
                     socket = server.connectSocket(PORT)
                     server.sendJSONDataToUnity(socket, body_parts)
                 
-                # Visualize angle
-                cv2.putText(image, str(left_body_angle), tuple(np.multiply(left_elbow, [640, 480]).astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
-                cv2.putText(image, str(right_body_angle), tuple(np.multiply(right_elbow, [640, 480]).astype(int)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2, cv2.LINE_AA)
             except:
                 pass    
-            
-            #TODO: update the following line so that it works with any angle from without an intermediary variable (not a core issue)
-            # Render Reba angle
-            cv2.putText(image, 'REBA Score:' + str(reba_value), (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
                         
             # Render detections
             mp_drawing.draw_landmarks(image, results.pose_landmarks, mp_pose.POSE_CONNECTIONS,
                                       mp_drawing.DrawingSpec(color=(245, 117, 66), thickness=2, circle_radius=2),
                                       mp_drawing.DrawingSpec(color=(245, 66, 230), thickness=2, circle_radius=2))
             
+            cv2.putText(image, "Press 'q' to quit", (0,30), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,255,255), 1, cv2.LINE_AA)
             cv2.imshow('Mediapipe Feed', image)
             
+            # Press the q key on your keyboard to exit out of the image capture
             if cv2.waitKey(10) & 0xFF == ord('q'):
                 break
         

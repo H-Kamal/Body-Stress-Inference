@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+// Class converts numerical REBA scores into colors which it stores into a dictionary 
 public static class REBA
 {
 
@@ -10,7 +10,7 @@ public static class REBA
     private static Color mediumRiskColor;
     private static Color highRiskColor;
 
-    public static double averageREBAScore;
+    public static double REBATotal;
     private const int LOW = 0;
     private const int MEDIUM = 2;
     private const int HIGH = 4;
@@ -23,6 +23,8 @@ public static class REBA
         highRiskColor = Color.red;
         REBAScoreColors = new Dictionary<string, Color>();
     }
+
+    // Goes through every key in the jointData dictionary and associates the keys to their color using the key's values 
     public static void setREBAColors(JointData jointData)
     {
         foreach (KeyValuePair<string, double> kvp in jointData.REBAScoreDic)
