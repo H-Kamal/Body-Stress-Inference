@@ -118,7 +118,7 @@ public class SocketConnection : MonoBehaviour
                 // Using the jointData, converts the REBA scores into colors and stores in it's fields
                 REBA.setREBAColors(jointData);
                 // Keeps track of the overall REBA score of the whole model
-                REBA.averageREBAScore = jointData.rebaAverage;
+                REBA.REBATotal = jointData.rebaTotal;
                 // Updates the rotations of the rigged model to move it 
                 RotationData.updateHumanRotationDic(jointData);
             }

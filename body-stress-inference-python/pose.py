@@ -20,7 +20,6 @@ def determining_joints():
     avgRebaLegAdj = 0
     avgRebaTrunk = 0
     avgRebaNeck = 0
-    rebaSampleCount = 0
 
     with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
         while cap.isOpened():
@@ -84,7 +83,6 @@ def determining_joints():
                 
                 sampleCount += 1
                 if sampleCount >= SAMPLE_SIZE: # take a sample every 2 iterations of the loop
-                    rebaSampleCount += 1
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_arm_angle) # do REBA analysis taken on angle
                     rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
                     rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)
@@ -94,18 +92,18 @@ def determining_joints():
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
 
                     # average the REBA score for each body part to get a running count of the total, average REBA score.
-                    avgRebaLeftArm = (rebaLeftArm + avgRebaLeftArm) / rebaSampleCount
-                    avgRebaRightArm = (rebaRightArm + avgRebaRightArm) / rebaSampleCount
-                    avgRebaLowerLeftArm = (rebaLowerLeftArm + avgRebaLowerLeftArm) / rebaSampleCount
-                    avgRebaLowerRightArm = (rebaLowerRightArm + avgRebaLowerRightArm) / rebaSampleCount
-                    avgRebaLegAdj = (rebaLegAdj + avgRebaLegAdj) / rebaSampleCount
-                    avgRebaTrunk = (rebaTrunk + avgRebaTrunk) / rebaSampleCount
-                    avgRebaNeck = (rebaNeck + avgRebaNeck) / rebaSampleCount
+                    avgRebaLeftArm = (rebaLeftArm + avgRebaLeftArm) / 2
+                    avgRebaRightArm = (rebaRightArm + avgRebaRightArm) / 2
+                    avgRebaLowerLeftArm = (rebaLowerLeftArm + avgRebaLowerLeftArm) / 2
+                    avgRebaLowerRightArm = (rebaLowerRightArm + avgRebaLowerRightArm) / 2
+                    avgRebaLegAdj = (rebaLegAdj + avgRebaLegAdj) / 2
+                    avgRebaTrunk = (rebaTrunk + avgRebaTrunk) / 2
+                    avgRebaNeck = (rebaNeck + avgRebaNeck) / 2
                     
                     # Average out the REBA scores over the SAMPLE_SIZE before sending over to Unity 
-                    rebaAverage = (avgRebaLeftArm + avgRebaRightArm + avgRebaLowerLeftArm + avgRebaLowerRightArm + avgRebaLegAdj + avgRebaTrunk + avgRebaNeck)
+                    rebaTotal = (avgRebaLeftArm + avgRebaRightArm + avgRebaLowerLeftArm + avgRebaLowerRightArm + avgRebaLegAdj + avgRebaTrunk + avgRebaNeck)
                     sampleCount = 0
-                    
+
                     # Data to be sent to Unity
                     body_parts = {
                         "leftArmAngle" : left_arm_angle,
@@ -125,7 +123,7 @@ def determining_joints():
                         "rebaLegAdj": rebaLegAdj,
                         "rebaTrunk": rebaTrunk,
                         "rebaNeck": rebaNeck, 
-                        "rebaAverage": rebaAverage,
+                        "rebaTotal": rebaTotal,
                         "avgRebaLeftArm": avgRebaLeftArm,
                         "avgRebaRightArm": avgRebaRightArm,
                         "avgRebaLowerLeftArm": avgRebaLowerLeftArm,

@@ -259,6 +259,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6171034121882785676, guid: 85020fa7bf2c30d45a31e692318e5067, type: 3}
+      propertyPath: m_text
+      value: Show REBA Results
+      objectReference: {fileID: 0}
+    - target: {fileID: 6171034121882785676, guid: 85020fa7bf2c30d45a31e692318e5067, type: 3}
       propertyPath: m_fontSize
       value: 22
       objectReference: {fileID: 0}
