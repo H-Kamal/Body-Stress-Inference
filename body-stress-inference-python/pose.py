@@ -11,7 +11,6 @@ cap = cv2.VideoCapture(0)
 def determining_joints():    
     PORT  = 1755    
     SAMPLE_SIZE = 2 # Rate at which we send a JSON object of REBA scores and angles
-    REBA_PARTS_TOTAL = 7
     sampleCount = 0
     avgRebaLeftArm = 0
     avgRebaRightArm = 0
