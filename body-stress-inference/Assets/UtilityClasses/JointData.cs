@@ -62,15 +62,5 @@ public class JointData
         REBAScoreDic["avgRebaLegAdj"] = avgRebaLegAdj;
         REBAScoreDic["avgRebaTrunk"] = avgRebaTrunk;
         REBAScoreDic["avgRebaNeck"] = avgRebaNeck;
-
-        Debug.Log("'avgRebaLeftArm': " + REBAScoreDic["avgRebaLeftArm"]);
-        Debug.Log("'avgRebaRightArm': " + REBAScoreDic["avgRebaRightArm"]);
-        Debug.Log("'avgRebaLowerLeftArm': " + REBAScoreDic["avgRebaLowerLeftArm"]);
-        Debug.Log("'avgRebaLowerRightArm': " + REBAScoreDic["avgRebaLowerRightArm"]);
-        Debug.Log("'avgRebaLegAdj': " + REBAScoreDic["avgRebaLegAdj"]);
-        Debug.Log("'avgRebaTrunk': " + REBAScoreDic["avgRebaTrunk"]);
-        Debug.Log("'avgRebaNeck': " + REBAScoreDic["avgRebaNeck"]);
-
-
     }
 }
