@@ -11,6 +11,7 @@ cap = cv2.VideoCapture(0)
 def determining_joints():    
     PORT  = 1755    
     SAMPLE_SIZE = 2 # Rate at which we send a JSON object of REBA scores and angles
+    rebaSampleCount = 0
     sampleCount = 0
     avgRebaLeftArm = 0
     avgRebaRightArm = 0
@@ -70,7 +71,7 @@ def determining_joints():
                 # Calculate angles for REBA analysis
                 left_arm_angle = cu.calc_cosine_law(left_shoulder, left_elbow, left_hip)
                 right_arm_angle = cu.calc_cosine_law(right_shoulder, right_elbow, right_hip)
-                left_lower_arm_angle = cu.calc_cosine_law(left_shoulder, left_wrist, left_elbow)
+                left_lower_arm_angle = abs(cu.calc_cosine_law(left_elbow, left_shoulder, left_wrist) - 180)
                 right_lower_arm_angle = cu.calc_cosine_law(right_elbow, right_shoulder, right_wrist)
                 left_adj_angle = cu.calc_cosine_law(left_hip, left_knee, left_ankle)
                 left_upper_leg_angle = cu.calc_cosine_law(left_hip, left_knee, left_hip_top)
@@ -82,6 +83,7 @@ def determining_joints():
                 
                 sampleCount += 1
                 if sampleCount >= SAMPLE_SIZE: # take a sample every 2 iterations of the loop
+                    rebaSampleCount += 1
                     rebaLeftArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - left_ear[0], left_elbow[0] - left_hip[0], left_arm_angle) # do REBA analysis taken on angle
                     rebaRightArm = rebaAnalysis.CalcUpperArmPosREBA(nose[0] - right_ear[0], right_elbow[0] - right_hip[0], right_arm_angle)
                     rebaLowerLeftArm = rebaAnalysis.calcLowerArmPosREBA(left_lower_arm_angle)
@@ -91,18 +93,18 @@ def determining_joints():
                     rebaNeck = rebaAnalysis.calcNeckREBA(nose[0] - left_ear[0], nose[0] - left_shoulder[0], neck_angle)
 
                     # average the REBA score for each body part to get a running count of the total, average REBA score.
-                    avgRebaLeftArm = (rebaLeftArm + avgRebaLeftArm) / 2
-                    avgRebaRightArm = (rebaRightArm + avgRebaRightArm) / 2
-                    avgRebaLowerLeftArm = (rebaLowerLeftArm + avgRebaLowerLeftArm) / 2
-                    avgRebaLowerRightArm = (rebaLowerRightArm + avgRebaLowerRightArm) / 2
-                    avgRebaLegAdj = (rebaLegAdj + avgRebaLegAdj) / 2
-                    avgRebaTrunk = (rebaTrunk + avgRebaTrunk) / 2
-                    avgRebaNeck = (rebaNeck + avgRebaNeck) / 2
+                    avgRebaLeftArm = (rebaLeftArm + avgRebaLeftArm)
+                    avgRebaRightArm = (rebaRightArm + avgRebaRightArm)
+                    avgRebaLowerLeftArm = (rebaLowerLeftArm + avgRebaLowerLeftArm)
+                    avgRebaLowerRightArm = (rebaLowerRightArm + avgRebaLowerRightArm)
+                    avgRebaLegAdj = (rebaLegAdj + avgRebaLegAdj)
+                    avgRebaTrunk = (rebaTrunk + avgRebaTrunk)
+                    avgRebaNeck = (rebaNeck + avgRebaNeck)
                     
                     # Average out the REBA scores over the SAMPLE_SIZE before sending over to Unity 
-                    rebaTotal = (avgRebaLeftArm + avgRebaRightArm + avgRebaLowerLeftArm + avgRebaLowerRightArm + avgRebaLegAdj + avgRebaTrunk + avgRebaNeck)
+                    rebaTotal = (max(avgRebaLeftArm, avgRebaRightArm) + max(avgRebaLowerLeftArm, avgRebaLowerRightArm) + avgRebaLegAdj + avgRebaTrunk + avgRebaNeck) / rebaSampleCount
                     sampleCount = 0
-
+                    
                     # Data to be sent to Unity
                     body_parts = {
                         "leftArmAngle" : left_arm_angle,
@@ -123,13 +125,13 @@ def determining_joints():
                         "rebaTrunk": rebaTrunk,
                         "rebaNeck": rebaNeck, 
                         "rebaTotal": rebaTotal,
-                        "avgRebaLeftArm": avgRebaLeftArm,
-                        "avgRebaRightArm": avgRebaRightArm,
-                        "avgRebaLowerLeftArm": avgRebaLowerLeftArm,
-                        "avgRebaLowerRightArm": avgRebaLowerRightArm,
-                        "avgRebaLegAdj": avgRebaLegAdj,
-                        "avgRebaTrunk": avgRebaTrunk,
-                        "avgRebaNeck": avgRebaNeck
+                        "avgRebaLeftArm": avgRebaLeftArm / rebaSampleCount,
+                        "avgRebaRightArm": avgRebaRightArm / rebaSampleCount,
+                        "avgRebaLowerLeftArm": avgRebaLowerLeftArm / rebaSampleCount,
+                        "avgRebaLowerRightArm": avgRebaLowerRightArm / rebaSampleCount,
+                        "avgRebaLegAdj": avgRebaLegAdj / rebaSampleCount,
+                        "avgRebaTrunk": avgRebaTrunk / rebaSampleCount,
+                        "avgRebaNeck": avgRebaNeck / rebaSampleCount
                     }      
                     
                     # Connect to waiting Unity server and send it the JSON object with Reba and angle data
